@@ -14,10 +14,10 @@ fun isOnScreen(
         val rightSide = (position + size / 2).x
         val bottomSide = (position + size / 2).y
 
-        val cameraLeftSide = (camera.position - Vector2.center).x
-        val cameraTopSide = (camera.position + Vector2.center).y
-        val cameraRightSide = (camera.position + Vector2.center).x
-        val cameraBottomSide = (camera.position - Vector2.center).y
+        val cameraLeftSide = (camera.position - Vector2.halfScreen).x
+        val cameraTopSide = (camera.position + Vector2.halfScreen).y
+        val cameraRightSide = (camera.position + Vector2.halfScreen).x
+        val cameraBottomSide = (camera.position - Vector2.halfScreen).y
 
         val cameraVertical = cameraBottomSide..cameraTopSide
         val cameraHorizontal = cameraLeftSide..cameraRightSide

@@ -5,19 +5,23 @@ import pl.gieted.flappy_bird.Renderer
 class Camera(
     renderer: Renderer,
     position: Vector2 = Vector2.zero,
-    size: Vector2 = Vector2.one,
-    rotation: Double = 0.0
-) : Object(renderer, position, size, rotation, -1_000_000) {
+) : Object(renderer, position, -1_000_000) {
+
+    val bounds
+        get() = Bounds(
+            position.x - Vector2.halfScreen.x,
+            position.x + Vector2.halfScreen.x,
+            position.y - Vector2.halfScreen.y,
+            position.y + Vector2.halfScreen.y
+        )
+
     override fun setup() {
     }
 
     override fun draw() {
         super.draw()
         with(renderer) {
-            val position = Vector2.center - position - Vector2(4, 0)
-            translate(position.x.toFloat(), position.y.toFloat())
-            scale(size.x.toFloat(), size.y.toFloat())
-            rotate(rotation.toFloat())
+            translate((Vector2.halfScreen.x - position.x).toFloat(), (Vector2.halfScreen.y + position.y).toFloat())
         }
     }
 }

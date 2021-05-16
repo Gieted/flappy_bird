@@ -24,7 +24,13 @@ abstract class Scene(renderer: Renderer) : LifecycleElement(renderer) {
     override fun draw() {
         camera.draw()
         objects.sortedBy { it.zIndex }.forEach {
-            it.draw()
+            if (it.detached) {
+                removeObject(it)
+            } else {
+                renderer.pushMatrix()
+                it.draw()
+                renderer.popMatrix()
+            }
         }
     }
 

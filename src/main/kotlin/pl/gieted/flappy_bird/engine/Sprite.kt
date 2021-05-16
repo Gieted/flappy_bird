@@ -6,44 +6,36 @@ import processing.core.PImage
 open class Sprite(
     renderer: Renderer,
     position: Vector2 = Vector2.zero,
-    size: Vector2? = null,
-    rotation: Double = 0.0,
     zIndex: Int = 0,
-    texture: PImage,
-) : Object(renderer, position, size ?: Vector2(texture.width, texture.height), rotation, zIndex) {
-    var opacity: Double = 1.0
+    var rotation: Double = 0.0,
+    var texture: PImage,
+    opacity: Double = 1.0
+) : Object(renderer, position, zIndex) {
+    var opacity: Double = limit(opacity, 0.0, 1.0)
         set(value) {
-            var boundValue = value
-            if (value > 1.0) {
-                boundValue = 1.0
-            }
-            if (value < 0.0) {
-                boundValue = 0.0
-            }
-            field = boundValue
+            field = limit(value, 0.0, 1.0)
         }
 
-    var texture: PImage = texture
-        set(value) {
-            size = Vector2(value.width, value.height)
-            field = value
-        }
+    val size: Vector2
+        get() = Vector2(texture.width, texture.height)
 
-    val isOnScreen: Boolean
-        get() = isOnScreen(renderer, position, size)
+    val bounds: Bounds
+        get() = Bounds(
+            position.x - size.x / 2,
+            position.x + size.x / 2,
+            position.y - size.y / 2,
+            position.y + size.y / 2
+        )
 
     override fun setup() {
-        this.size = size
     }
 
     override fun draw() {
         super.draw()
         with(renderer) {
-            pushMatrix()
             tint(255, (255 * opacity).toFloat())
-            rotateAroundCenter(position, rotation)
-            image(texture, (position.x - size.x / 2).toFloat(), (position.y - size.y / 2).toFloat())
-            popMatrix()
+            rotateAround(position, rotation)
+            image(texture, (position.x - size.x / 2).toFloat(), (-position.y - size.y / 2).toFloat())
         }
     }
 }

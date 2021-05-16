@@ -1,5 +1,8 @@
 package pl.gieted.flappy_bird.engine
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import pl.gieted.flappy_bird.Renderer
 import processing.core.PImage
 import processing.sound.SoundFile
@@ -12,20 +15,25 @@ open class ResourceLoader(private val renderer: Renderer) {
         get() = if (totalTasks > 0) completedTasks.toDouble() / totalTasks * 100 else 0.0
 
 
-    fun loadImage(path: String): PImage {
+    suspend fun loadImage(path: String): PImage = coroutineScope {
         totalTasks++
         println("Loading image: $path")
-        val image = renderer.loadImage(path)
-        completedTasks++
+        val image = async(Dispatchers.IO) {
+            renderer.loadImage("images/$path")
+        }
 
-        return image
+        image.invokeOnCompletion { completedTasks++ }
+
+        image.await()
     }
 
     fun loadSound(path: String): SoundFile {
         totalTasks++
         println("Loading sound: $path")
-        val sound = SoundFile(renderer, path)
+
+        val sound = SoundFile(renderer, "sounds/$path")
         completedTasks++
+
         return sound
     }
 }

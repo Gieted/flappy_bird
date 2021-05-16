@@ -5,28 +5,43 @@ import pl.gieted.flappy_bird.Renderer
 abstract class Object(
     renderer: Renderer,
     open var position: Vector2 = Vector2.zero,
-    open var size: Vector2 = Vector2.defaultSize,
-    open var rotation: Double = 0.0,
     open var zIndex: Int = 0,
 ) : LifecycleElement(renderer) {
-    private val children = mutableListOf<Object>()
+    var detached = false
+        private set
 
-    fun addChild(child: Object) {
-        child.setup()
-        children.add(child)
+    private val mutableChildren = mutableListOf<Object>()
+
+    val children: List<Object> = mutableChildren
+
+    protected fun detach() {
+        detached = true
     }
 
-    fun removeChild(child: Object) {
+    protected fun addChild(child: Object) {
+        child.setup()
+        mutableChildren.add(child)
+    }
+
+    protected fun removeChild(child: Object) {
         child.destroy()
-        children.remove(child)
+        mutableChildren.remove(child)
     }
 
     override fun draw() {
-        children.sortedBy { it.zIndex }.forEach { it.draw() }
+        mutableChildren.sortedBy { it.zIndex }.forEach {
+            if (it.detached) {
+                removeChild(it)
+            } else {
+                renderer.pushMatrix()
+                it.draw()
+                renderer.popMatrix()
+            }
+        }
     }
 
     override fun destroy() {
         super.destroy()
-        children.forEach { it.destroy() }
+        mutableChildren.forEach { it.destroy() }
     }
 }
