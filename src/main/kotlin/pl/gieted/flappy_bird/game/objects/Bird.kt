@@ -19,7 +19,7 @@ class Bird(
         const val xOffset = -150
         const val autopilotHeight = -35
         const val autopilotRange = 5
-        const val autopilotSpeed = 0.035
+        const val autopilotSpeed = 0.03
         const val gravityPower = 0.4
         const val swingPower = 8.5
         const val flySpeed = 2.5
