@@ -5,16 +5,18 @@ import pl.gieted.flappy_bird.Renderer
 abstract class Scene(renderer: Renderer) : LifecycleElement(renderer) {
     open val camera: Camera = Camera(renderer)
 
-    protected open val objects = mutableListOf<Object>()
+    private val mutableObjects = mutableListOf<Object>()
+    
+    val objects: List<Object> = mutableObjects
 
     fun addObject(theObject: Object) {
-        objects.add(theObject)
+        mutableObjects.add(theObject)
         theObject.setup()
     }
 
     fun removeObject(theObject: Object) {
         theObject.destroy()
-        objects.remove(theObject)
+        mutableObjects.remove(theObject)
     }
 
     override fun setup() {
@@ -23,7 +25,7 @@ abstract class Scene(renderer: Renderer) : LifecycleElement(renderer) {
 
     override fun draw() {
         camera.draw()
-        objects.sortedBy { it.zIndex }.forEach {
+        mutableObjects.sortedBy { it.zIndex }.forEach {
             if (it.detached) {
                 removeObject(it)
             } else {
@@ -37,6 +39,6 @@ abstract class Scene(renderer: Renderer) : LifecycleElement(renderer) {
     override fun destroy() {
         super.destroy()
         camera.destroy()
-        objects.forEach { it.destroy() }
+        mutableObjects.forEach { it.destroy() }
     }
 }
