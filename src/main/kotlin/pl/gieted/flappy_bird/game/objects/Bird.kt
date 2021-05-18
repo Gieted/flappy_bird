@@ -20,10 +20,10 @@ class Bird(
         const val autopilotHeight = -35
         const val autopilotRange = 5
         const val autopilotSpeed = 0.035
-        const val gravityPower = 0.35
-        const val swingPower = 8.0
+        const val gravityPower = 0.4
+        const val swingPower = 8.5
         const val flySpeed = 2.5
-        const val velocityCap = 10.0
+        const val velocityCap = 13.0
     }
 
     enum class Color {
@@ -34,7 +34,7 @@ class Bird(
 
     private var yVelocity: Double = 0.0
         set(value) {
-            field = limit(value, -velocityCap, velocityCap)
+            field = limit(value, -velocityCap)
         }
 
     private var flapDirection = false
