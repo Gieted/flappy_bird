@@ -3,7 +3,7 @@ package pl.gieted.flappy_bird.game
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import pl.gieted.flappy_bird.Renderer
+import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.ResourceLoader
 import pl.gieted.flappy_bird.engine.scale
 import pl.gieted.flappy_bird.game.objects.Bird

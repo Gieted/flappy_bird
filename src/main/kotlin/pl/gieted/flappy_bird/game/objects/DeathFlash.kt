@@ -1,6 +1,6 @@
 package pl.gieted.flappy_bird.game.objects
 
-import pl.gieted.flappy_bird.Renderer
+import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.Animation
 import pl.gieted.flappy_bird.engine.Color
 import pl.gieted.flappy_bird.engine.FullscreenRectangle

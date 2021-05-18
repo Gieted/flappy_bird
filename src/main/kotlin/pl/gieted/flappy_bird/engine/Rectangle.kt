@@ -1,7 +1,5 @@
 package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.Renderer
-
 open class Rectangle(
     renderer: Renderer,
     position: Vector2 = Vector2.zero,

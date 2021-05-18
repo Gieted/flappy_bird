@@ -1,6 +1,5 @@
 package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.Renderer
 import processing.core.PImage
 
 class Background(renderer: Renderer, private val texture: PImage) : Object(renderer, zIndex = -100) {

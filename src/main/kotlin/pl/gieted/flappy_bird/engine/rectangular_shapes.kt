@@ -1,7 +1,5 @@
 package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.Renderer
-
 // does not support camera rotation or zooming
 fun isOnScreen(
     renderer: Renderer,

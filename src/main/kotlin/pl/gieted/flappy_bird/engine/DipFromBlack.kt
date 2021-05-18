@@ -1,7 +1,5 @@
 package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.Renderer
-
 open class DipFromBlack(renderer: Renderer, private val speed: Double = 1.0, lazy: Boolean = false) : FullscreenRectangle(renderer, color = Color.black), Animation {
     
     private var started = !lazy

@@ -1,7 +1,5 @@
 package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.Renderer
-
 abstract class Scene(renderer: Renderer) : LifecycleElement(renderer) {
     open val camera: Camera = Camera(renderer)
 

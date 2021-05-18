@@ -1,7 +1,5 @@
 package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.Renderer
-
 class ProgressBar(
     renderer: Renderer,
     private val yPosition: Double = -Vector2.halfScreen.y + 5,

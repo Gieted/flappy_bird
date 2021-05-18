@@ -1,6 +1,6 @@
 package pl.gieted.flappy_bird.game.objects
 
-import pl.gieted.flappy_bird.Renderer
+import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.Sprite
 import pl.gieted.flappy_bird.engine.Vector2
 import processing.core.PImage

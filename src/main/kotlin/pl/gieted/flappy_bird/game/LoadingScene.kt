@@ -1,7 +1,7 @@
 package pl.gieted.flappy_bird.game
 
 import kotlinx.coroutines.launch
-import pl.gieted.flappy_bird.Renderer
+import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
 
 class LoadingScene(renderer: Renderer) : Scene(renderer) {

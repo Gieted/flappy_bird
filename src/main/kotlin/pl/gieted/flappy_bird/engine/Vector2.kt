@@ -1,7 +1,5 @@
 package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.Renderer
-
 data class Vector2(val x: Double, val y: Double) {
 
     constructor(x: Int, y: Int) : this(x.toDouble(), y.toDouble())

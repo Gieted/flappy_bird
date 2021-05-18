@@ -1,6 +1,5 @@
-package pl.gieted.flappy_bird
+package pl.gieted.flappy_bird.engine
 
-import pl.gieted.flappy_bird.engine.*
 import pl.gieted.flappy_bird.game.LoadingScene
 import processing.core.PApplet
 

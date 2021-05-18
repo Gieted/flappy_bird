@@ -3,7 +3,6 @@ package pl.gieted.flappy_bird.engine
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
-import pl.gieted.flappy_bird.Renderer
 import processing.core.PImage
 import processing.sound.SoundFile
 
