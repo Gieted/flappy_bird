@@ -16,7 +16,7 @@ class ScrollingElement(
 
     private fun spawnNext() {
         val element = elementFactory()
-        val xPos = if (elements.isEmpty()) startXPos else elements.last().position.x + element.size.x + offset
+        val xPos = if (elements.isEmpty()) startXPos else elements.last().position.x + offset
         element.position = Vector2(xPos, element.position.y)
         addChild(element as Object)
         elements.add(element)
@@ -33,11 +33,13 @@ class ScrollingElement(
 
     override fun draw() {
         with(renderer) {
-            while (elements.last().bounds.right + offset < camera.bounds.right + Vector2.defaultSize.x) {
+            while (elements.last().bounds.right - offset < camera.bounds.right + Vector2.defaultSize.x) {
                 spawnNext()
             }
             elements.filter { it.bounds.right < camera.bounds.left }.forEach { removeElement(it) }
-            elements.forEach { it.position -= Vector2((parallax + 1) * (camera.position.x - lastCameraXPos), 0) }
+            if (parallax != 0.0) {
+                elements.forEach { it.position -= Vector2((parallax) * (camera.position.x - lastCameraXPos), 0) }
+            }
             lastCameraXPos = camera.position.x
         }
         super.draw()

@@ -11,8 +11,8 @@ class Pipe(renderer: Renderer, position: Vector2 = Vector2.zero, texture: PImage
         const val gapHeight = 350
     }
 
-    private val upperPipe = Sprite(renderer, rotation = 180.0, texture = texture)
-    private val lowerPipe = Sprite(renderer, texture = texture)
+    private val upperPipe = Sprite(renderer, position, rotation = 180.0, texture = texture)
+    private val lowerPipe = Sprite(renderer, position, texture = texture)
 
     override val size: Vector2
         get() = Vector2(upperPipe.texture.width, upperPipe.texture.height * 2 - gapHeight)
@@ -28,7 +28,5 @@ class Pipe(renderer: Renderer, position: Vector2 = Vector2.zero, texture: PImage
     override fun setup() {
         addChild(upperPipe)
         addChild(lowerPipe)
-
-        position = position
     }
 }

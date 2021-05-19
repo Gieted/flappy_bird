@@ -22,7 +22,7 @@ class Bird(
         const val autopilotSpeed = 0.03
         const val gravityPower = 0.4
         const val swingPower = 8.5
-        const val flySpeed = 2.5
+        const val flySpeed = 5.0
         const val velocityCap = 13.0
     }
 
@@ -39,12 +39,18 @@ class Bird(
 
     private var flapDirection = false
     private var mouseButtonLock = false
+    private var autopilot = true
     private var autopilotDirection = 1
+    private var startXPos: Double? = null
 
     var isAlive = true
         private set
 
-    private var autopilot = true
+    val distanceFlown: Double
+        get() {
+            val startXPos = startXPos
+            return if (startXPos != null) position.x - startXPos else 0.0
+        }
 
     fun kill() {
         isAlive = false
@@ -54,6 +60,7 @@ class Bird(
     fun swing() {
         if (autopilot) {
             autopilot = false
+            startXPos = position.x
         }
         mouseButtonLock = true
         swingSound.play()

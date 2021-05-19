@@ -8,14 +8,23 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
 
     companion object {
         const val firstPipeOffset = 1500
-        const val pipeOffset = 300.0
+        const val pipeOffset = 400.0
         const val groundLevel = -290
         const val maxPipeHeight = 225.0
         const val minPipeHeight = -125.0
     }
 
     private val startScreen = StartScreen(renderer, resources.images.message)
-    private var score = 0
+
+    private var score: Int = 0
+        set(value) {
+            if (value > field) {
+                resources.sounds.point.play()
+                println("score: $value")
+            }
+            field = value
+        }
+
     private val bird = Bird(renderer, getBirdTexture(), this::onDeath, resources.sounds.wing)
 
     private fun getBackgroundTexture() = if ((1..4).random() < 4) {
@@ -72,8 +81,8 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
             ScrollingElement(
                 renderer,
                 { Sprite(renderer, texture = backgroundTexture) },
-                parallax = -1.8,
-                offset = -11.0
+                parallax = -0.8,
+                offset = backgroundTexture.width - 11.0
             )
         )
         addObject(
@@ -81,7 +90,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
                 renderer,
                 { Sprite(renderer, Vector2(0, -Vector2.halfScreen.y), texture = resources.images.base) },
                 zIndex = 5,
-                offset = -1.0
+                offset = resources.images.base.width - 1.0
             )
         )
         addObject(startScreen)
@@ -103,6 +112,9 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
                 }
                 bird.swing()
             }
+
+            val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + 50, lowerBound = 0.0)
+            score =  ((distanceFlownFromFirstPipe + 50) / pipeOffset).toInt().let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
 
             camera.position = Vector2(bird.position.x - Bird.xOffset, 0)
         }
