@@ -9,22 +9,14 @@ open class Sprite(
     var rotation: Double = 0.0,
     var texture: PImage,
     opacity: Double = 1.0
-) : Object(renderer, position, zIndex) {
+) : Object(renderer, position, zIndex), Measurable {
     var opacity: Double = limit(opacity, 0.0, 1.0)
         set(value) {
             field = limit(value, 0.0, 1.0)
         }
 
-    val size: Vector2
+    override val size: Vector2
         get() = Vector2(texture.width, texture.height)
-
-    val bounds: Bounds
-        get() = Bounds(
-            position.x - size.x / 2,
-            position.x + size.x / 2,
-            position.y - size.y / 2,
-            position.y + size.y / 2
-        )
 
     override fun setup() {
     }

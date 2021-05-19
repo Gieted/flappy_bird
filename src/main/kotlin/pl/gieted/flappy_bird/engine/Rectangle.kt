@@ -4,26 +4,18 @@ open class Rectangle(
     renderer: Renderer,
     position: Vector2 = Vector2.zero,
     zIndex: Int = 0,
-    var size: Vector2 = Vector2.defaultSize,
+    override var size: Vector2 = Vector2.defaultSize,
     var rotation: Double = 0.0,
     var color: Color = Color.default,
     opacity: Double = 1.0,
     var strokeColor: Color? = null,
     var strokeWidth: Double = 1.0
-) : Object(renderer, position, zIndex) {
+) : Object(renderer, position, zIndex), Measurable {
     
     var opacity: Double = limit(opacity, 0.0, 1.0)
         set(value) {
             field = limit(value, 0.0, 1.0)
         }
-
-    val bounds: Bounds
-        get() = Bounds(
-            position.x - size.x / 2,
-            position.x + size.x / 2,
-            position.y - size.y / 2,
-            position.y + size.y / 2
-        )
     
     override fun setup() {
     }

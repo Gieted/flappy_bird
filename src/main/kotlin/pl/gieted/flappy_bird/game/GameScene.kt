@@ -3,19 +3,22 @@ package pl.gieted.flappy_bird.game
 import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
 import pl.gieted.flappy_bird.game.objects.*
+import kotlin.math.abs
+import kotlin.math.pow
 
 class GameScene(renderer: Renderer, private val resources: Resources) : Scene(renderer) {
 
     companion object {
-        const val firstPipeOffset = 1000
-        const val pipeOffset = 350
+        const val firstPipeOffset = 1500
+        const val pipeOffset = 300.0
         const val groundLevel = -290
+        const val maxPipeHeight = 225.0
+        const val minPipeHeight = -125.0
     }
 
     private val startScreen = StartScreen(renderer, resources.images.message)
     private var score = 0
     private val bird = Bird(renderer, getBirdTexture(), this::onDeath, resources.sounds.wing)
-    private var gameStarted = false
 
     private fun getBackgroundTexture() = if ((1..4).random() < 4) {
         resources.images.backgroundDay
@@ -32,18 +35,35 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
         resources.sounds.hit.play()
     }
 
-    private fun getPipeTexture() =
-        if ((1..100).random() == 100) resources.images.redPipe else resources.images.greenPipe
+    private var pipesCount = 0
 
+    private fun getPipeTexture() = if (++pipesCount < 100) resources.images.greenPipe else resources.images.redPipe
 
-    private fun startGame() {
-        gameStarted = true
-        startScreen.fadeOut()
+    private var lastPipeHeight = 0.0
+
+    private fun getNextPipeHeight(): Double {
+        val nextHeight = limit(
+            lastPipeHeight + (-50..50).random().toDouble().also { Math.cbrt(it) } * 5,
+            minPipeHeight,
+            maxPipeHeight
+        )
+
+        lastPipeHeight = nextHeight
+
+        return nextHeight
     }
 
-    private fun incrementScore() {
-        resources.sounds.point.play()
-        score++
+    private fun startGame() {
+        startScreen.fadeOut()
+
+        addObject(
+            ScrollingElement(
+                renderer,
+                { Pipe(renderer, Vector2(0, getNextPipeHeight()), texture = getPipeTexture()) },
+                offset = pipeOffset,
+                startXPos = bird.position.x + firstPipeOffset
+            )
+        )
     }
 
     override fun setup() {
@@ -62,7 +82,8 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
             ScrollingElement(
                 renderer,
                 { Sprite(renderer, Vector2(0, -Vector2.halfScreen.y), texture = resources.images.base) },
-                zIndex = 5
+                zIndex = 5,
+                offset = -1.0
             )
         )
         addObject(startScreen)

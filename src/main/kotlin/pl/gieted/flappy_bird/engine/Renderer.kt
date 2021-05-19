@@ -29,10 +29,10 @@ class Renderer : PApplet() {
     val camera: Camera
         get() = scene.camera
 
-    fun rotateAround(center: Vector2, degrees: Double) {
-        translate(center.x.toFloat(), center.y.toFloat())
+    fun rotateAround(anchorPoint: Vector2, degrees: Double) {
+        translate(anchorPoint.x.toFloat(), -anchorPoint.y.toFloat())
         rotate(radians(degrees.toFloat()))
-        translate(-center.x.toFloat(), -center.y.toFloat())
+        translate(-anchorPoint.x.toFloat(), anchorPoint.y.toFloat())
     }
 
     override fun setup() {

@@ -11,7 +11,7 @@ import processing.core.PImage
 
 class FlappyBirdResourceLoader(renderer: Renderer) : ResourceLoader(renderer) {
     private companion object {
-        const val pipeScale = 2.0
+        const val pipeScale = 1.9
     }
     
     suspend fun loadResources(): Resources = coroutineScope {
