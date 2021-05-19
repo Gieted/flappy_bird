@@ -31,6 +31,7 @@ open class ResourceLoader(private val renderer: Renderer) {
         println("Loading sound: $path")
 
         val sound = SoundFile(renderer, "sounds/$path")
+        sound.amp(Renderer.soundVolume.toFloat())
         completedTasks++
 
         return sound

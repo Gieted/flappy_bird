@@ -8,6 +8,7 @@ class Renderer : PApplet() {
     companion object {
         const val windowWidth = 1440
         const val windowHeight = 810
+        const val soundVolume = 0.1
     }
 
     private var lastDrawTime: Int = 0

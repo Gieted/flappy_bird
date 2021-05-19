@@ -17,6 +17,7 @@ class Bird(
     private val textures: Resources.Images.Bird,
     private val onDeath: () -> Unit,
     private val swingSound: SoundFile,
+    private val fallSound: SoundFile
 ) : Sprite(renderer, Vector2(0, autopilotHeight), texture = textures.downFlap), CollisionListener {
 
     companion object {
@@ -124,6 +125,7 @@ class Bird(
     override fun onCollision(hitObject: Collidable) {
         if (isAlive) {
             kill()
+            fallSound.play()
         }
     }
 

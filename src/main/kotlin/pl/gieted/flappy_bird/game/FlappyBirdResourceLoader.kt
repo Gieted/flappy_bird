@@ -42,7 +42,7 @@ class FlappyBirdResourceLoader(renderer: Renderer) : ResourceLoader(renderer) {
                 backgroundDay.also { resizeBackground(it) },
                 backgroundNight.also { resizeBackground(it) },
                 base.also { it.scale(2.0) },
-                gameOver,
+                gameOver.also { it.scale(1.5) },
                 message.also { it.scale(1.5) },
                 greenPipe.also { it.scale(pipeScale) },
                 redPipe.also { it.scale(pipeScale) },
@@ -52,10 +52,12 @@ class FlappyBirdResourceLoader(renderer: Renderer) : ResourceLoader(renderer) {
         }
 
         val sounds = async(Dispatchers.IO) {
-            val hit = loadSound("hit.wav")
+            val hit = loadSound("hit.wav").also { it.amp(Renderer.soundVolume.toFloat() / 2) }
             val wing = loadSound("wing.wav")
             val point = loadSound("point.wav")
-            Resources.Sounds(hit, wing, point)
+            val swoosh = loadSound("swoosh.wav")
+            val die = loadSound("die.wav").also { it.amp(Renderer.soundVolume.toFloat() / 4) }
+            Resources.Sounds(hit, wing, point, swoosh, die)
         }
 
         Resources(

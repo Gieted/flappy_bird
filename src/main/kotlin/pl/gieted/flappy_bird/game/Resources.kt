@@ -9,7 +9,13 @@ data class Resources(
     val sounds: Sounds
 ) {
 
-    data class Sounds(val hit: SoundFile, val wing: SoundFile, val point: SoundFile)
+    data class Sounds(
+        val hit: SoundFile,
+        val wing: SoundFile,
+        val point: SoundFile,
+        val swoosh: SoundFile,
+        val die: SoundFile
+    )
 
     data class Images(
         val backgroundDay: PImage,

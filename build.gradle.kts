@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "pl.gieted.flappy_bird"
-version = "1.0-SNAPSHOT"
+version = "1.1-SNAPSHOT"
 
 application { 
     mainClass.set("pl.gieted.flappy_bird.MainKt")

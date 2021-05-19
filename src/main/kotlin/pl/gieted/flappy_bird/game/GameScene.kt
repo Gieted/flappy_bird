@@ -26,8 +26,9 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
             scoreDisplay.score = field
         }
 
-    private val bird = Bird(renderer, getBirdTexture(), this::onDeath, resources.sounds.wing)
+    private val bird = Bird(renderer, getBirdTexture(), this::onDeath, resources.sounds.wing, resources.sounds.die)
     private val scoreDisplay = ScoreDisplay(renderer, resources.images.digits)
+    private val dipToBlack = DipToBlack(renderer)
 
     private fun getBackgroundTexture() = if ((1..4).random() < 4) {
         resources.images.backgroundDay
@@ -39,9 +40,16 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
         else -> resources.images.birds[Bird.Color.Yellow]!!
     }
 
+    private var deathLockTime = 0.0
+        set(value) {
+            field = limit(value, lowerBound = 0.0)
+        }
+
     private fun onDeath() {
         addObject(DeathFlash(renderer))
         resources.sounds.hit.play()
+        addObject(GameOver(renderer, resources.images.gameOver))
+        deathLockTime = 500.0
     }
 
     private var pipesCount = 0
@@ -78,6 +86,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
     override fun setup() {
         super.setup()
         addObject(DipFromBlack(renderer))
+        resources.sounds.swoosh.play()
         val backgroundTexture = getBackgroundTexture()
         addObject(
             ScrollingElement(
@@ -101,6 +110,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
     }
 
     override fun draw() {
+        super.draw()
         with(renderer) {
             if (bird.position.y < groundLevel) {
                 bird.position = Vector2(bird.position.x, groundLevel)
@@ -117,11 +127,22 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
             }
 
             val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + 50, lowerBound = 0.0)
-            score = ((distanceFlownFromFirstPipe + 50) / pipeOffset).toInt()
+            score = ((distanceFlownFromFirstPipe + 10) / pipeOffset).toInt()
                 .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
 
             camera.position = Vector2(bird.position.x - Bird.xOffset, 0)
+
+            if (!bird.isAlive && mousePressedThisFrame && deathLockTime == 0.0) {
+                once("dipToBlack") {
+                    addObject(dipToBlack)
+                    resources.sounds.swoosh.play()
+                }
+            } else {
+                deathLockTime -= deltaTime
+            }
+            if (dipToBlack.isFinished) {
+                scene = GameScene(renderer, resources)
+            }
         }
-        super.draw()
     }
 }
