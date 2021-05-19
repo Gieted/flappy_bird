@@ -71,18 +71,18 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
 
     override fun draw() {
         with(renderer) {
-            if (mousePressedThisFrame && bird.isAlive && bird.bounds.top < camera.bounds.top) {
-                once("startGame") {
-                    startGame()
-                }
-                bird.swing()
-            }
-
             if (bird.position.y < groundLevel) {
                 bird.position = Vector2(bird.position.x, groundLevel)
                 if (bird.isAlive) {
                     bird.kill()
                 }
+            }
+
+            if (mousePressedThisFrame && bird.isAlive && bird.bounds.top < camera.bounds.top) {
+                once("startGame") {
+                    startGame()
+                }
+                bird.swing()
             }
 
             camera.position = Vector2(bird.position.x - Bird.xOffset, 0)
