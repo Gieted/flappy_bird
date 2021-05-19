@@ -3,8 +3,6 @@ package pl.gieted.flappy_bird.game
 import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
 import pl.gieted.flappy_bird.game.objects.*
-import kotlin.math.abs
-import kotlin.math.pow
 
 class GameScene(renderer: Renderer, private val resources: Resources) : Scene(renderer) {
 
