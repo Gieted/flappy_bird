@@ -27,8 +27,8 @@ class Bird(
         const val autopilotRange = 5
         const val autopilotSpeed = 0.03
         const val gravityPower = 0.4
-        const val swingPower = 8.5
-        const val flySpeed = 6.0
+        const val swingPower = 9.0
+        const val flySpeed = 5.0
         const val velocityCap = 13.0
         const val hitBoxSize = 14.0
         const val rotationSpeed = 15.0
