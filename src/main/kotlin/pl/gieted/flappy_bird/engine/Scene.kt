@@ -30,6 +30,8 @@ abstract class Scene(renderer: Renderer) : LifecycleElement(renderer) {
                 renderer.pushMatrix()
                 it.draw()
                 renderer.popMatrix()
+                renderer.noTint()
+                renderer.noFill()
             }
         }
     }

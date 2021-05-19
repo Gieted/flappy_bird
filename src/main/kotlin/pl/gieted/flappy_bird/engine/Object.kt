@@ -34,6 +34,8 @@ abstract class Object(
                 renderer.pushMatrix()
                 it.draw()
                 renderer.popMatrix()
+                renderer.noTint()
+                renderer.noFill()
             }
         }
     }

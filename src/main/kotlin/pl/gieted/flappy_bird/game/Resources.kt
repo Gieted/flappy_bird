@@ -20,7 +20,7 @@ data class Resources(
         val greenPipe: PImage,
         val redPipe: PImage,
         val birds: Map<BirdObject.Color, Bird>,
-        val numbers: List<PImage>
+        val digits: List<PImage>
     ) {
         data class Bird(
             val downFlap: PImage,

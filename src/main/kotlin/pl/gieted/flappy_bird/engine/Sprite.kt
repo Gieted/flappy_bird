@@ -24,8 +24,8 @@ open class Sprite(
     override fun draw() {
         super.draw()
         with(renderer) {
-            tint(255, (255 * opacity).toFloat())
             rotateAround(position, rotation)
+            tint(255, (255 * opacity).toFloat())
             image(texture, (position.x - size.x / 2).toFloat(), (-position.y - size.y / 2).toFloat())
         }
     }

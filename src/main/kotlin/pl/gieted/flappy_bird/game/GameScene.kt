@@ -22,10 +22,12 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
                 resources.sounds.point.play()
                 println("score: $value")
             }
-            field = value
+            field = limit(value, lowerBound = 0)
+            scoreDisplay.score = field
         }
 
     private val bird = Bird(renderer, getBirdTexture(), this::onDeath, resources.sounds.wing)
+    private val scoreDisplay = ScoreDisplay(renderer, resources.images.digits)
 
     private fun getBackgroundTexture() = if ((1..4).random() < 4) {
         resources.images.backgroundDay
@@ -95,6 +97,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
         )
         addObject(startScreen)
         addObject(bird)
+        addObject(scoreDisplay)
     }
 
     override fun draw() {
@@ -114,7 +117,8 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
             }
 
             val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + 50, lowerBound = 0.0)
-            score =  ((distanceFlownFromFirstPipe + 50) / pipeOffset).toInt().let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
+            score = ((distanceFlownFromFirstPipe + 50) / pipeOffset).toInt()
+                .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
 
             camera.position = Vector2(bird.position.x - Bird.xOffset, 0)
         }

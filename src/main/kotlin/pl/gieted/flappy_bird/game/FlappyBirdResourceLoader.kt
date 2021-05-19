@@ -13,9 +13,9 @@ class FlappyBirdResourceLoader(renderer: Renderer) : ResourceLoader(renderer) {
     private companion object {
         const val pipeScale = 1.9
     }
-    
+
     suspend fun loadResources(): Resources = coroutineScope {
-        val images = async { 
+        val images = async {
             val backgroundDay = loadImage("background-day.png")
             val backgroundNight = loadImage("background-night.png")
             val base = loadImage("base.png")
@@ -37,7 +37,7 @@ class FlappyBirdResourceLoader(renderer: Renderer) : ResourceLoader(renderer) {
                     color to Resources.Images.Bird(downFlap, midFlap, upFlap)
                 }
 
-            val numbers = (0..9).map { loadImage("$it.png") }
+            val digits = (0..9).map { loadImage("$it.png") }
             Resources.Images(
                 backgroundDay.also { resizeBackground(it) },
                 backgroundNight.also { resizeBackground(it) },
@@ -47,7 +47,7 @@ class FlappyBirdResourceLoader(renderer: Renderer) : ResourceLoader(renderer) {
                 greenPipe.also { it.scale(pipeScale) },
                 redPipe.also { it.scale(pipeScale) },
                 birds,
-                numbers
+                digits.onEach { it.scale(1.25) }
             )
         }
 
