@@ -100,6 +100,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
     }
 
     override fun draw() {
+        super.draw()
         with(renderer) {
             if (bird.position.y < groundLevel) {
                 bird.position = Vector2(bird.position.x, groundLevel)
@@ -133,6 +134,5 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
                 scene = GameScene(renderer, resources)
             }
         }
-        super.draw()
     }
 }
