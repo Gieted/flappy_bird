@@ -26,8 +26,8 @@ class Bird(
         const val autopilotHeight = -35
         const val autopilotRange = 5
         const val autopilotSpeed = 0.03
-        const val gravityPower = 0.025
-        const val swingPower = 9.4
+        const val gravityPower = 0.03
+        const val swingPower = 10.5
         const val flySpeed = 0.32
         const val velocityCap = 14.0
         const val hitBoxSize = 14.0
@@ -109,7 +109,7 @@ class Bird(
             } else {
                 yVelocity -= gravityPower * deltaTime
 
-                targetRotation = -yVelocity * 10.2 - 45
+                targetRotation = -yVelocity * 10.2 - 50
 
                 rotation = limit(
                     when {
