@@ -24,6 +24,7 @@ open class Rectangle(
         super.draw()
         with(renderer) {
             fill(color.r.toFloat(), color.g.toFloat(), color.b.toFloat(), opacity.toFloat() * 255)
+            rotateAround(position, rotation)
             val outlineColor = strokeColor
             if (outlineColor != null) {
                 strokeWeight(strokeWidth.toFloat())
@@ -31,7 +32,6 @@ open class Rectangle(
             } else {
                 stroke(0, 0f)
             }
-            rotateAround(position, rotation)
             rect((position.x - size.x / 2).toFloat(), (-position.y - size.y / 2).toFloat(), size.x.toFloat(), size.y.toFloat())
         }
     }

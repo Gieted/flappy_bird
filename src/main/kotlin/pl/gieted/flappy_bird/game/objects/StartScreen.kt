@@ -19,6 +19,7 @@ class StartScreen(renderer: Renderer, texture: PImage) :
     }
 
     override fun draw() {
+        super.draw()
         with(renderer) {
             position = Vector2(camera.position.x, yPosition)
 
@@ -29,6 +30,5 @@ class StartScreen(renderer: Renderer, texture: PImage) :
                 detach()
             }
         }
-        super.draw()
     }
 }

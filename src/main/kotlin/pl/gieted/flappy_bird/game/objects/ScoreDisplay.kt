@@ -21,6 +21,7 @@ class ScoreDisplay(renderer: Renderer, private val digitTextures: List<PImage>) 
     private val digitWidth = digitTextures.first().width
 
     override fun draw() {
+        super.draw()
         with(renderer) {
             position = Vector2(camera.position.x, position.y)
 
@@ -35,6 +36,5 @@ class ScoreDisplay(renderer: Renderer, private val digitTextures: List<PImage>) 
                 nextDigitXPos += digitWidth + digitOffset
             }
         }
-        super.draw()
     }
 }
