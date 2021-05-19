@@ -3,6 +3,7 @@ package pl.gieted.flappy_bird.game
 import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
 import pl.gieted.flappy_bird.game.objects.*
+import kotlin.random.Random
 
 class GameScene(renderer: Renderer, private val resources: Resources) : Scene(renderer) {
 
@@ -56,19 +57,8 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
 
     private fun getPipeTexture() = if (++pipesCount < 100) resources.images.greenPipe else resources.images.redPipe
 
-    private var lastPipeHeight = 0.0
 
-    private fun getNextPipeHeight(): Double {
-        val nextHeight = limit(
-            lastPipeHeight + (-50..50).random().toDouble().also { Math.cbrt(it) } * 5,
-            minPipeHeight,
-            maxPipeHeight
-        )
-
-        lastPipeHeight = nextHeight
-
-        return nextHeight
-    }
+    private fun getNextPipeHeight(): Double = Random.nextDouble(minPipeHeight, maxPipeHeight)
 
     private fun startGame() {
         startScreen.fadeOut()
