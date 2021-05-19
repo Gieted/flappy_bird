@@ -27,9 +27,12 @@ class Bird(
         const val autopilotSpeed = 0.03
         const val gravityPower = 0.4
         const val swingPower = 8.5
-        const val flySpeed = 5.0
+        const val flySpeed = 6.0
         const val velocityCap = 13.0
         const val hitBoxSize = 8.0
+        const val rotationSpeed = 8.0
+        const val minRotation = -30.0
+        const val maxRotation = 90.0
     }
 
     enum class Color {
@@ -61,7 +64,7 @@ class Bird(
     fun kill() {
         isAlive = false
         onDeath()
-        zIndex = 20
+        zIndex = 4
     }
 
     fun swing() {
@@ -73,6 +76,8 @@ class Bird(
         swingSound.play()
         yVelocity = swingPower
     }
+
+    private var targetRotation: Double = rotation
 
     override fun draw() {
         super.draw()
@@ -102,6 +107,14 @@ class Bird(
                 position += Vector2(0, autopilotSpeed * deltaTime * autopilotDirection)
             } else {
                 yVelocity -= gravityPower
+
+                targetRotation = -yVelocity * 6.5
+
+                rotation = limit(when {
+                    targetRotation > rotation -> limit(rotation + rotationSpeed, upperBound = targetRotation)
+                    targetRotation < rotation -> limit(rotation - rotationSpeed, lowerBound = targetRotation)
+                    else -> rotation
+                }, minRotation, maxRotation)
             }
 
             position += Vector2(0, yVelocity)
