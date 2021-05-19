@@ -2,7 +2,7 @@ package pl.gieted.flappy_bird.game.objects
 
 import pl.gieted.flappy_bird.engine.*
 
-class ScrollingElement(
+open class ScrollingElement(
     renderer: Renderer,
     private val elementFactory: () -> Measurable,
     private val parallax: Double = 0.0,
@@ -11,7 +11,7 @@ class ScrollingElement(
     private val offset: Double = 0.0
 ) : Object(renderer, zIndex = zIndex) {
 
-    private val elements = mutableListOf<Measurable>()
+    protected val elements = mutableListOf<Measurable>()
     private var lastCameraXPos = renderer.camera.position.x
 
     private fun spawnNext() {

@@ -1,11 +1,15 @@
 package pl.gieted.flappy_bird.game.objects
 
 import pl.gieted.flappy_bird.engine.*
+import pl.gieted.flappy_bird.engine.collisions.Collidable
+import pl.gieted.flappy_bird.engine.collisions.colliders.Collider
+import pl.gieted.flappy_bird.engine.collisions.colliders.MultiCollider
+import pl.gieted.flappy_bird.engine.collisions.colliders.RectangularCollider
 import processing.core.PImage
 
 
 class Pipe(renderer: Renderer, position: Vector2 = Vector2.zero, texture: PImage) :
-    Object(renderer, position, zIndex = -2), Measurable {
+    Object(renderer, position, zIndex = -2), Measurable, Collidable {
 
     companion object {
         const val gapHeight = 350
@@ -29,4 +33,12 @@ class Pipe(renderer: Renderer, position: Vector2 = Vector2.zero, texture: PImage
         addChild(upperPipe)
         addChild(lowerPipe)
     }
+
+    override val collider: Collider
+        get() = MultiCollider(
+            setOf(
+                RectangularCollider(upperPipe.position, upperPipe.size),
+                RectangularCollider(lowerPipe.position, lowerPipe.size)
+            )
+        )
 }

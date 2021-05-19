@@ -66,7 +66,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
         startScreen.fadeOut()
 
         addObject(
-            ScrollingElement(
+            CollidableScrollingElement(
                 renderer,
                 { Pipe(renderer, Vector2(0, getNextPipeHeight()), texture = getPipeTexture()) },
                 offset = pipeOffset,
