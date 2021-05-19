@@ -96,7 +96,7 @@ class Bird(
                     }
                 }
 
-                position += Vector2(flySpeed * deltaTime, 0)
+                position += Vector2((flySpeed * deltaTime).toInt(), 0)
             } else {
                 if (texture != textures.midFlap) {
                     texture = textures.midFlap
@@ -110,7 +110,7 @@ class Bird(
             } else {
                 yVelocity -= gravityPower * deltaTime
 
-                targetRotation = -(yVelocity.pow(3) / 15 + 20)
+                targetRotation = -(yVelocity.pow(3) / 16 + 20)
 
                 rotation = limit(
                     when {
