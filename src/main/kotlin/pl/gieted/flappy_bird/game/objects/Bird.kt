@@ -11,6 +11,7 @@ import pl.gieted.flappy_bird.engine.collisions.colliders.RectangularCollider
 import pl.gieted.flappy_bird.engine.limit
 import pl.gieted.flappy_bird.game.Resources
 import processing.sound.SoundFile
+import kotlin.math.pow
 
 class Bird(
     renderer: Renderer,
@@ -29,9 +30,9 @@ class Bird(
         const val gravityPower = 0.03
         const val swingPower = 10.5
         const val flySpeed = 0.32
-        const val velocityCap = 14.0
+        const val velocityCap = 12.0
         const val hitBoxSize = 14.0
-        const val rotationSpeed = 0.5
+        const val rotationSpeed = 0.4
         const val minRotation = -25.0
         const val maxRotation = 90.0
     }
@@ -109,12 +110,18 @@ class Bird(
             } else {
                 yVelocity -= gravityPower * deltaTime
 
-                targetRotation = -yVelocity * 10.2 - 50
+                targetRotation = -(yVelocity.pow(3) / 15 + 20)
 
                 rotation = limit(
                     when {
-                        targetRotation > rotation -> limit(rotation + rotationSpeed * deltaTime, upperBound = targetRotation)
-                        targetRotation < rotation -> limit(rotation - rotationSpeed * deltaTime, lowerBound = targetRotation)
+                        targetRotation > rotation -> limit(
+                            rotation + rotationSpeed * deltaTime,
+                            upperBound = targetRotation
+                        )
+                        targetRotation < rotation -> limit(
+                            rotation - rotationSpeed * deltaTime,
+                            lowerBound = targetRotation
+                        )
                         else -> rotation
                     }, minRotation, maxRotation
                 )
