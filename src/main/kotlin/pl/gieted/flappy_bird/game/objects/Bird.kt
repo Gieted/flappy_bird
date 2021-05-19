@@ -26,12 +26,12 @@ class Bird(
         const val autopilotHeight = -35
         const val autopilotRange = 5
         const val autopilotSpeed = 0.03
-        const val gravityPower = 0.4
-        const val swingPower = 9.0
-        const val flySpeed = 5.0
-        const val velocityCap = 13.0
+        const val gravityPower = 0.025
+        const val swingPower = 9.4
+        const val flySpeed = 0.32
+        const val velocityCap = 14.0
         const val hitBoxSize = 14.0
-        const val rotationSpeed = 15.0
+        const val rotationSpeed = 0.5
         const val minRotation = -25.0
         const val maxRotation = 90.0
     }
@@ -95,7 +95,7 @@ class Bird(
                     }
                 }
 
-                position += Vector2(flySpeed, 0)
+                position += Vector2(flySpeed * deltaTime, 0)
             } else {
                 if (texture != textures.midFlap) {
                     texture = textures.midFlap
@@ -107,14 +107,14 @@ class Bird(
                 if (position.y < autopilotHeight - autopilotRange && autopilotDirection == -1) autopilotDirection = 1
                 position += Vector2(0, autopilotSpeed * deltaTime * autopilotDirection)
             } else {
-                yVelocity -= gravityPower
+                yVelocity -= gravityPower * deltaTime
 
-                targetRotation = -yVelocity * 8.0 - 20
+                targetRotation = -yVelocity * 10.2 - 45
 
                 rotation = limit(
                     when {
-                        targetRotation > rotation -> limit(rotation + rotationSpeed, upperBound = targetRotation)
-                        targetRotation < rotation -> limit(rotation - rotationSpeed, lowerBound = targetRotation)
+                        targetRotation > rotation -> limit(rotation + rotationSpeed * deltaTime, upperBound = targetRotation)
+                        targetRotation < rotation -> limit(rotation - rotationSpeed * deltaTime, lowerBound = targetRotation)
                         else -> rotation
                     }, minRotation, maxRotation
                 )

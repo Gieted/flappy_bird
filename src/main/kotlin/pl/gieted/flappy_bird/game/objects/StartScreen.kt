@@ -7,7 +7,7 @@ import processing.core.PImage
 
 class StartScreen(renderer: Renderer, texture: PImage) :
     Sprite(renderer, Vector2(0, yPosition), zIndex = 10, texture = texture) {
-    
+
     private companion object {
         const val yPosition = 75
     }
