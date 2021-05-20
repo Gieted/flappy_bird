@@ -12,7 +12,7 @@ class Pipe(renderer: Renderer, position: Vector2 = Vector2.zero, texture: PImage
     Object(renderer, position, zIndex = -2), Measurable, Collidable {
 
     companion object {
-        const val gapHeight = 350
+        const val gapHeight = 375
     }
 
     private val upperPipe = Sprite(renderer, position, rotation = 180.0, texture = texture)

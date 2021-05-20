@@ -2,6 +2,8 @@ package pl.gieted.flappy_bird.engine
 
 import pl.gieted.flappy_bird.game.LoadingScene
 import processing.core.PApplet
+import processing.opengl.PJOGL.setIcon
+import java.awt.Dimension
 
 class Renderer : PApplet() {
 
@@ -17,7 +19,7 @@ class Renderer : PApplet() {
 
     var mousePressedThisFrame = false
         private set
-    
+
     private var mousePressedLastFrame = false
 
     var scene: Scene = LoadingScene(this)
@@ -37,6 +39,8 @@ class Renderer : PApplet() {
     }
 
     override fun setup() {
+        surface.setTitle("Flappy Bird")
+
         lastDrawTime = millis()
         scene.setup()
     }
@@ -52,5 +56,6 @@ class Renderer : PApplet() {
 
     override fun settings() {
         size(windowWidth, windowHeight, P2D)
+        setIcon(*(1..5).map { "favicons/favicon-$it.png" }.toTypedArray())
     }
 }
