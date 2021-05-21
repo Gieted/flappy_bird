@@ -21,7 +21,6 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
         set(value) {
             if (value > field) {
                 resources.sounds.point.play()
-                println("score: $value")
             }
             field = limit(value, lowerBound = 0)
             scoreDisplay.score = field
