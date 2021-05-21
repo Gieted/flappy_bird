@@ -14,6 +14,8 @@ application {
 launch4j {
     mainClassName = "pl.gieted.flappy_bird.MainKt"
     icon = "${projectDir}/favicon.ico"
+    bundledJrePath = "./jre"
+    bundledJre64Bit = true
 }
 
 repositories {
