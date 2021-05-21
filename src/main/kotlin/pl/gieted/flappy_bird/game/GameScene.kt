@@ -1,11 +1,13 @@
 package pl.gieted.flappy_bird.game
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
 import pl.gieted.flappy_bird.game.objects.*
 import kotlin.random.Random
 
-class GameScene(renderer: Renderer, private val resources: Resources) : Scene(renderer) {
+class GameScene(renderer: Renderer, private val resources: Resources, private var highScore: Int) : Scene(renderer) {
 
     companion object {
         const val firstPipeOffset = 1000
@@ -16,18 +18,18 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
     }
 
     private val startScreen = StartScreen(renderer, resources.images.message)
+    private val scoreDisplay = ScoreDisplay(renderer, resources.images.digits).also { it.score = highScore }
 
     private var score: Int = 0
         set(value) {
             if (value > field) {
                 resources.sounds.point.play()
+                scoreDisplay.score = value
             }
             field = limit(value, lowerBound = 0)
-            scoreDisplay.score = field
         }
 
     private val bird = Bird(renderer, getBirdTexture(), this::onDeath, resources.sounds.wing, resources.sounds.die)
-    private val scoreDisplay = ScoreDisplay(renderer, resources.images.digits)
     private val dipToBlack = DipToBlack(renderer)
 
     private fun getBackgroundTexture() = if ((1..4).random() < 4) {
@@ -50,6 +52,13 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
         resources.sounds.hit.play()
         addObject(GameOver(renderer, resources.images.gameOver))
         deathLockTime = 500.0
+
+        if (score > highScore) {
+            highScore = score
+            lifecycleScope.launch {
+                HighScoreRepository().saveHighScore(highScore)
+            }
+        }
     }
 
     private var pipesCount = 0
@@ -70,6 +79,8 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
                 startXPos = bird.position.x + firstPipeOffset
             )
         )
+
+        scoreDisplay.score = score
     }
 
     override fun setup() {
@@ -101,6 +112,10 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
     override fun draw() {
         super.draw()
         with(renderer) {
+            val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + 50, lowerBound = 0.0)
+            score = ((distanceFlownFromFirstPipe) / pipeOffset).toInt()
+                .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
+
             if (bird.position.y < groundLevel) {
                 bird.position = Vector2(bird.position.x, groundLevel)
                 if (bird.isAlive) {
@@ -115,10 +130,6 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
                 bird.swing()
             }
 
-            val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + 50, lowerBound = 0.0)
-            score = ((distanceFlownFromFirstPipe) / pipeOffset).toInt()
-                .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
-
             camera.position = Vector2(bird.position.x - Bird.xOffset, 0)
 
             if (!bird.isAlive && mousePressedThisFrame && deathLockTime == 0.0) {
@@ -130,7 +141,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
                 deathLockTime -= deltaTime
             }
             if (dipToBlack.isFinished) {
-                scene = GameScene(renderer, resources)
+                scene = GameScene(renderer, resources, highScore)
             }
         }
     }

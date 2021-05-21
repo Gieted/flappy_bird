@@ -3,7 +3,6 @@ package pl.gieted.flappy_bird.engine
 import pl.gieted.flappy_bird.game.LoadingScene
 import processing.core.PApplet
 import processing.opengl.PJOGL.setIcon
-import java.awt.Dimension
 
 class Renderer : PApplet() {
 
