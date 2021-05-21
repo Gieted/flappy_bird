@@ -15,7 +15,7 @@ sealed interface Collider {
                 colliderTwo.position.y,
                 colliderOne.position.x,
                 colliderOne.position.y,
-                colliderOne.diameter
+                colliderOne.diameter / 2
             )
             colliderOne is RectangularCollider && colliderTwo is CircularCollider -> testRectangleToCircle(
                 colliderOne.size.x,
@@ -25,7 +25,7 @@ sealed interface Collider {
                 colliderOne.position.y,
                 colliderTwo.position.x,
                 colliderTwo.position.y,
-                colliderTwo.diameter
+                colliderTwo.diameter / 2
             )
             else -> throw Exception("Tried to match incompatible collider types")
         }

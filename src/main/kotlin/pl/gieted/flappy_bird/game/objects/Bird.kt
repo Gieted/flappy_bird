@@ -31,7 +31,7 @@ class Bird(
         const val swingPower = 10.5
         const val flySpeed = 0.32
         const val velocityCap = 12.0
-        const val hitBoxSize = 14.0
+        const val hitBoxSize = 30.0
         const val rotationSpeed = 0.4
         const val minRotation = -25.0
         const val maxRotation = 90.0
@@ -139,5 +139,5 @@ class Bird(
     }
 
     override val collider: Collider
-        get() = CircularCollider(Vector2(position.x + hitBoxSize / 2, position.y), hitBoxSize)
+        get() = CircularCollider(position, hitBoxSize)
 }
