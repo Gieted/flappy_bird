@@ -8,7 +8,7 @@ import kotlin.random.Random
 class GameScene(renderer: Renderer, private val resources: Resources) : Scene(renderer) {
 
     companion object {
-        const val firstPipeOffset = 1500
+        const val firstPipeOffset = 1000
         const val pipeOffset = 350.0
         const val groundLevel = -290
         const val maxPipeHeight = 225.0
