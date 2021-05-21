@@ -116,7 +116,7 @@ class GameScene(renderer: Renderer, private val resources: Resources) : Scene(re
             }
 
             val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + 50, lowerBound = 0.0)
-            score = ((distanceFlownFromFirstPipe + 10) / pipeOffset).toInt()
+            score = ((distanceFlownFromFirstPipe) / pipeOffset).toInt()
                 .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
 
             camera.position = Vector2(bird.position.x - Bird.xOffset, 0)
