@@ -7,7 +7,6 @@ import pl.gieted.flappy_bird.engine.collisions.Collidable
 import pl.gieted.flappy_bird.engine.collisions.CollisionListener
 import pl.gieted.flappy_bird.engine.collisions.colliders.CircularCollider
 import pl.gieted.flappy_bird.engine.collisions.colliders.Collider
-import pl.gieted.flappy_bird.engine.collisions.colliders.RectangularCollider
 import pl.gieted.flappy_bird.engine.limit
 import pl.gieted.flappy_bird.game.Resources
 import processing.sound.SoundFile
@@ -32,7 +31,7 @@ class Bird(
         const val flySpeed = 0.32
         const val velocityCap = 12.0
         const val hitBoxSize = 30.0
-        const val rotationSpeed = 0.4
+        const val rotationSpeed = 0.33
         const val minRotation = -25.0
         const val maxRotation = 90.0
     }
@@ -110,7 +109,7 @@ class Bird(
             } else {
                 yVelocity -= gravityPower * deltaTime
 
-                targetRotation = -(yVelocity.pow(3) / 16 + 20)
+                targetRotation = -(yVelocity.pow(3) / 15.7 + 20)
 
                 rotation = limit(
                     when {
@@ -119,7 +118,7 @@ class Bird(
                             upperBound = targetRotation
                         )
                         targetRotation < rotation -> limit(
-                            rotation - rotationSpeed * deltaTime,
+                            rotation - 0.4 * deltaTime,
                             lowerBound = targetRotation
                         )
                         else -> rotation
