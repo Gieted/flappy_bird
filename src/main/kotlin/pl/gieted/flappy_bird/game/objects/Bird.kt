@@ -31,7 +31,6 @@ class Bird(
         const val flySpeed = 0.32
         const val velocityCap = 12.0
         const val hitBoxSize = 30.0
-        const val rotationSpeed = 0.33
         const val minRotation = -25.0
         const val maxRotation = 90.0
     }
@@ -114,7 +113,7 @@ class Bird(
                 rotation = limit(
                     when {
                         targetRotation > rotation -> limit(
-                            rotation + rotationSpeed * deltaTime,
+                            rotation + 0.27 * deltaTime,
                             upperBound = targetRotation
                         )
                         targetRotation < rotation -> limit(
