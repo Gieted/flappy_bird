@@ -9,8 +9,10 @@ class Background(renderer: Renderer, private val texture: PImage) : Object(rende
 
     override fun draw() {
         super.draw()
-        with(renderer) { 
-            background(texture)
+        with(renderer) {
+            if (texture.width == width && texture.height == height) {
+                background(texture)
+            }
         }
     }
 }
