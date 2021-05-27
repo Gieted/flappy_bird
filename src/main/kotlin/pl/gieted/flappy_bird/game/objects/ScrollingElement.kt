@@ -32,16 +32,16 @@ open class ScrollingElement(
     }
 
     override fun draw() {
+        super.draw()
         with(renderer) {
             while (elements.last().bounds.right - offset < camera.bounds.right + Vector2.defaultSize.x) {
                 spawnNext()
             }
-            elements.filter { it.bounds.right < camera.bounds.left }.forEach { removeElement(it) }
             if (parallax != 0.0) {
                 elements.forEach { it.position -= Vector2((parallax) * (camera.position.x - lastCameraXPos), 0) }
             }
+            elements.filter { it.bounds.right < camera.bounds.left }.forEach { removeElement(it) }
             lastCameraXPos = camera.position.x
         }
-        super.draw()
     }
 }
