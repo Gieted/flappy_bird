@@ -6,7 +6,7 @@ import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
 
 class LoadingScene(renderer: Renderer) : Scene(renderer) {
-    
+
     private companion object {
         const val backgroundImagePath = "loading.png"
         const val transitionsSpeed = 2.0
@@ -23,17 +23,19 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
     private val highScoreRepository = HighScoreRepository()
 
     private fun loadBackgroundImage() {
-        with(renderer) {
-            lifecycleScope.launch {
-                val backgroundImage = resourceLoader.loadImage(backgroundImagePath)
-                addObject(Background(renderer, backgroundImage))
-                dipFromBlack.start()
-            }
+        lifecycleScope.launch {
+            val backgroundImage = resourceLoader.loadImage(backgroundImagePath)
+            addObject(Background(renderer, backgroundImage))
+            dipFromBlack.start()
+        }
+    }
 
+    private fun loadResources() {
+        with(renderer) {
             lifecycleScope.launch {
                 val deferredResources = async { resourceLoader.loadResources() }
                 val deferredHighScore = async { highScoreRepository.loadHighScore() }
-                
+
                 resources = deferredResources.await()
                 highScore = deferredHighScore.await()
                 sceneExitTime = millis() + sceneExitOffset
@@ -46,6 +48,7 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
         addObject(progressBar)
         addObject(dipFromBlack)
         loadBackgroundImage()
+        loadResources()
     }
 
     override fun draw() {

@@ -1,6 +1,5 @@
 package pl.gieted.flappy_bird.game
 
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
