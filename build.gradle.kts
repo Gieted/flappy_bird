@@ -30,9 +30,9 @@ dependencies {
     implementation(fileTree("libs") {
         include("*.jar")
         if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) {
-            exclude("*linux*")
+            include("windows/*.jar")
         } else {
-            exclude("*windows*")
+            exclude("linux/*.jar")
         }
     })
 
