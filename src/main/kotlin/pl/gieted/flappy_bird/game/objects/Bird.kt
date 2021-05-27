@@ -113,7 +113,7 @@ class Bird(
                 rotation = limit(
                     when {
                         targetRotation > rotation -> limit(
-                            rotation + 0.27 * deltaTime,
+                            rotation + (if (isAlive) 0.27 else 0.4) * deltaTime,
                             upperBound = targetRotation
                         )
                         targetRotation < rotation -> limit(
