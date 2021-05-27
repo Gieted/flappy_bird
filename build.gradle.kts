@@ -32,7 +32,7 @@ dependencies {
         if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) {
             include("windows/*.jar")
         } else {
-            exclude("linux/*.jar")
+            include("linux/*.jar")
         }
     })
 
