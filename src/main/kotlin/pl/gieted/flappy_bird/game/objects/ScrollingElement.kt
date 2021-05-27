@@ -32,7 +32,6 @@ open class ScrollingElement(
     }
 
     override fun draw() {
-        super.draw()
         with(renderer) {
             while (elements.last().bounds.right - offset < camera.bounds.right + Vector2.defaultSize.x) {
                 spawnNext()
@@ -43,5 +42,6 @@ open class ScrollingElement(
             elements.filter { it.bounds.right < camera.bounds.left }.forEach { removeElement(it) }
             lastCameraXPos = camera.position.x
         }
+        super.draw()
     }
 }
