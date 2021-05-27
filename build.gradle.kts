@@ -1,13 +1,15 @@
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
 plugins {
     kotlin("jvm") version "1.5.0"
     id("application")
-    id ("edu.sc.seis.launch4j") version "2.5.0"
+    id("edu.sc.seis.launch4j") version "2.5.0"
 }
 
 group = "pl.gieted.flappy_bird"
 version = "1.9-SNAPSHOT"
 
-application { 
+application {
     mainClass.set("pl.gieted.flappy_bird.MainKt")
 }
 
@@ -24,6 +26,15 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
-    implementation(fileTree("libs") { include("*.jar") })
+
+    implementation(fileTree("libs") {
+        include("*.jar")
+        if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) {
+            exclude("*linux*")
+        } else {
+            exclude("*windows*")
+        }
+    })
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-RC")
 }

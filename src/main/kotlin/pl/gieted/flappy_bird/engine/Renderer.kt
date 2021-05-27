@@ -39,6 +39,7 @@ class Renderer : PApplet() {
 
     override fun setup() {
         surface.setTitle("Flappy Bird")
+        surface.setResizable(false)
 
         lastDrawTime = millis()
         scene.setup()
