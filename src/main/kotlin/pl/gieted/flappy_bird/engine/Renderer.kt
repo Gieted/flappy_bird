@@ -3,6 +3,7 @@ package pl.gieted.flappy_bird.engine
 import pl.gieted.flappy_bird.game.LoadingScene
 import processing.core.PApplet
 import processing.opengl.PJOGL.setIcon
+import kotlin.math.roundToInt
 
 class Renderer : PApplet() {
 
@@ -37,6 +38,8 @@ class Renderer : PApplet() {
         translate(-anchorPoint.x.toFloat(), anchorPoint.y.toFloat())
     }
 
+    private var windowScale = 0.0
+
     override fun setup() {
         surface.setTitle("Flappy Bird")
         surface.setResizable(false)
@@ -47,6 +50,7 @@ class Renderer : PApplet() {
 
     override fun draw() {
         background(0)
+        scale(windowScale.toFloat())
         deltaTime = millis() - lastDrawTime
         lastDrawTime = millis()
         mousePressedThisFrame = mousePressed && !mousePressedLastFrame
@@ -55,7 +59,9 @@ class Renderer : PApplet() {
     }
 
     override fun settings() {
-        size(windowWidth, windowHeight, P2D)
+        windowScale = displayWidth / 1920.0
+        println("Window scale: $windowScale")
+        size((windowWidth * windowScale).roundToInt(), (windowHeight * windowScale).roundToInt(), P2D)
         setIcon(*(1..5).map { "favicons/favicon-$it.png" }.toTypedArray())
     }
 }

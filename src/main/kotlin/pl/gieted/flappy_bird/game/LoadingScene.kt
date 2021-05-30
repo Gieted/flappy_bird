@@ -23,10 +23,15 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
     private val highScoreRepository = HighScoreRepository()
 
     private fun loadBackgroundImage() {
-        lifecycleScope.launch {
-            val backgroundImage = resourceLoader.loadImage(backgroundImagePath)
-            addObject(Background(renderer, backgroundImage))
-            dipFromBlack.start()
+        with(renderer) {
+            lifecycleScope.launch {
+                val backgroundImage = resourceLoader.loadImage(backgroundImagePath)
+                if (backgroundImage.width != width) {
+                    backgroundImage.resize(width, height)
+                }
+                addObject(Background(renderer, backgroundImage))
+                dipFromBlack.start()
+            }
         }
     }
 
