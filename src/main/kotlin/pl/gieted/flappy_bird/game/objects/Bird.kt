@@ -102,9 +102,18 @@ class Bird(
             }
 
             if (autopilot) {
-                if (position.y > autopilotHeight + autopilotRange && autopilotDirection == 1) autopilotDirection = -1
-                if (position.y < autopilotHeight - autopilotRange && autopilotDirection == -1) autopilotDirection = 1
-                position += Vector2(0, autopilotSpeed * deltaTime * autopilotDirection)
+                val autopilotMaxHeight = autopilotHeight + autopilotRange
+                val autopilotMinHeight = autopilotHeight - autopilotRange
+                if (position.y >= autopilotMaxHeight && autopilotDirection == 1) autopilotDirection = -1
+                if (position.y <= autopilotMinHeight && autopilotDirection == -1) autopilotDirection = 1
+                position = Vector2(
+                    position.x,
+                    limit(
+                        position.y + autopilotSpeed * deltaTime * autopilotDirection,
+                        autopilotMinHeight.toDouble(),
+                        autopilotMaxHeight.toDouble()
+                    )
+                )
             } else {
                 yVelocity -= gravityPower * deltaTime
 
