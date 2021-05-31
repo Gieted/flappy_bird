@@ -31,7 +31,6 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
                 }
                 addObject(Background(renderer, backgroundImage))
                 dipFromBlack.start()
-                loadResources()
             }
         }
     }
@@ -60,6 +59,12 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
         super.draw()
         with(renderer) {
             progressBar.progressPercentage = resourceLoader.progressPercentage
+
+            if (dipFromBlack.isFinished) {
+                once("loadResources") {
+                    loadResources()
+                }
+            }
 
             val sceneExitTime = sceneExitTime
             if (sceneExitTime != null && millis() > sceneExitTime) {
