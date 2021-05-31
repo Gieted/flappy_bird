@@ -31,6 +31,7 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
                 }
                 addObject(Background(renderer, backgroundImage))
                 dipFromBlack.start()
+                loadResources()
             }
         }
     }
@@ -53,7 +54,6 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
         addObject(progressBar)
         addObject(dipFromBlack)
         loadBackgroundImage()
-        loadResources()
     }
 
     override fun draw() {
