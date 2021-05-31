@@ -59,7 +59,11 @@ class Renderer : PApplet() {
     }
 
     override fun settings() {
-        windowScale = displayWidth / 1920.0
+        windowScale = if (displayWidth > displayHeight) {
+            displayHeight / 1080.0
+        } else {
+            displayWidth / 1920.0
+        }
         println("Window scale: $windowScale")
         size((windowWidth * windowScale).roundToInt(), (windowHeight * windowScale).roundToInt(), P2D)
         setIcon(*(1..5).map { "favicons/favicon-$it.png" }.toTypedArray())
