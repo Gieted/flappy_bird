@@ -26,19 +26,13 @@ actual open class Processing actual constructor() {
         actual fun setResizable(resizable: Boolean) = pSurface.setResizable(resizable)
     }
     
-    actual fun loadImage(path: String): Image = pApplet.loadImage(path)
+    actual suspend fun loadImage(path: String): Image = pApplet.loadImage(path)
 
-    actual var height: Int
+    actual val height: Int
         get() = pApplet.height
-        set(value) {
-            pApplet.height = value
-        }
     
-    actual var width: Int
+    actual val width: Int
         get() = pApplet.width
-        set(value) {
-            pApplet.width = value
-        }
 
     actual fun background(image: Image) = pApplet.background(image)
 
@@ -52,23 +46,14 @@ actual open class Processing actual constructor() {
 
     actual fun scale(value: Float) = pApplet.scale(value)
 
-    actual var mousePressed: Boolean
+    actual val mousePressed: Boolean
         get() = pApplet.mousePressed
-        set(value) {
-            pApplet.mousePressed = value
-        }
     
-    actual var displayHeight: Int
+    actual val displayHeight: Int
         get() = pApplet.displayHeight
-        set(value) {
-            pApplet.displayHeight = value
-        }
     
-    actual var displayWidth: Int
+    actual val displayWidth: Int
         get() = pApplet.displayWidth
-        set(value) {
-            pApplet.displayWidth = value
-        }
 
     actual fun size(x: Int, y: Int, renderer: String) = pApplet.size(x, y, renderer)
 
@@ -112,4 +97,7 @@ actual open class Processing actual constructor() {
     actual fun tint(color: Int, alpha: Float) = pApplet.tint(color, alpha)
 
     actual fun image(image: Image, x: Float, y: Float) = pApplet.image(image, x, y)
+    
+    actual val frameRate: Float
+        get() = pApplet.frameRate
 }

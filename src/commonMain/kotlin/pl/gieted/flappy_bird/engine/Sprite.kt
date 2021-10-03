@@ -23,7 +23,9 @@ open class Sprite(
         super.draw()
         with(renderer) {
             rotateAround(position, rotation)
-            tint(255, (255 * opacity).toFloat())
+            if (opacity != 1.0) {
+                tint(255, (255 * opacity).toFloat())
+            }
             image(texture, (position.x - size.x / 2).toFloat(), (-position.y - size.y / 2).toFloat())
         }
     }

@@ -1,8 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="jar" name="flappy_bird-js-1.11-SNAPSHOT">
     <output-path>$PROJECT_DIR$/build/libs</output-path>
-    <root id="archive" name="flappy_bird-js-1.11-SNAPSHOT.jar">
-      <element id="module-output" name="flappy_bird.jsMain" />
-    </root>
+    <root id="archive" name="flappy_bird-js-1.11-SNAPSHOT.jar" />
   </artifact>
 </component>

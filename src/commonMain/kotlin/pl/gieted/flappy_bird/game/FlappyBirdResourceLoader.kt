@@ -1,6 +1,5 @@
 package pl.gieted.flappy_bird.game
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import pl.gieted.flappy_bird.engine.Image

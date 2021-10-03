@@ -8,12 +8,11 @@ expect open class Processing() {
         fun setResizable(resizable: Boolean)
     }
     
-    fun loadImage(path: String): Image
+    suspend fun loadImage(path: String): Image
 
-    var height: Int
-        private set
+    val height: Int
     
-    var width: Int
+    val width: Int
 
     fun background(image: Image)
 
@@ -27,10 +26,10 @@ expect open class Processing() {
 
     fun scale(value: Float)
 
-    var mousePressed: Boolean
+    val mousePressed: Boolean
 
-    var displayHeight: Int
-    var displayWidth: Int
+    val displayHeight: Int
+    val displayWidth: Int
 
     fun size(x: Int, y: Int, renderer: String)
 
@@ -69,4 +68,6 @@ expect open class Processing() {
     fun tint(color: Int, alpha: Float)
     
     fun image(image: Image, x: Float, y: Float)
+
+    val frameRate: Float
 }

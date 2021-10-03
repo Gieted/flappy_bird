@@ -29,6 +29,9 @@ kotlin {
     js(IR) {
         binaries.executable()
         browser {
+            commonWebpackConfig { 
+                devServer?.open = false
+            }
         }
     }
     sourceSets {
@@ -49,14 +52,12 @@ kotlin {
                 })
             }
         }
-        val jvmTest by getting
         val jsMain by getting {
             dependencies {
                 implementation(npm("p5", "^1.4.0"))
-                implementation(npm("@types/p5", "^1.3.1"))
+                compileOnly(npm("@types/p5", "^1.3.1"))
             }
         }
-        val jsTest by getting
     }
 }
 
