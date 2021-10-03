@@ -1,7 +1,7 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("multiplatform") version "1.5.31"
     id("application")
     id("edu.sc.seis.launch4j") version "2.5.0"
 }
@@ -20,21 +20,46 @@ launch4j {
     bundledJre64Bit = true
 }
 
-repositories {
-    mavenCentral()
+kotlin {
+    jvm {
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
+    }
+    js(IR) {
+        binaries.executable()
+        browser {
+        }
+    }
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(fileTree("libs") {
+                    include("*.jar")
+                    if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) {
+                        include("windows/*.jar")
+                    } else {
+                        include("linux/*.jar")
+                    }
+                })
+            }
+        }
+        val jvmTest by getting
+        val jsMain by getting {
+            dependencies {
+                implementation(npm("p5", "^1.4.0"))
+                implementation(npm("@types/p5", "^1.3.1"))
+            }
+        }
+        val jsTest by getting
+    }
 }
 
-dependencies {
-    implementation(kotlin("stdlib"))
-
-    implementation(fileTree("libs") {
-        include("*.jar")
-        if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) {
-            include("windows/*.jar")
-        } else {
-            include("linux/*.jar")
-        }
-    })
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-RC")
+repositories {
+    mavenCentral()
 }
