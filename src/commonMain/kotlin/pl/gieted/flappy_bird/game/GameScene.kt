@@ -14,6 +14,7 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
         const val groundLevel = -290
         const val maxPipeHeight = 225.0
         const val minPipeHeight = -125.0
+        const val scoringOffset = 25 
     }
 
     private val startScreen = StartScreen(renderer, resources.images.message)
@@ -111,7 +112,7 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
     override fun draw() {
         super.draw()
         with(renderer) {
-            val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + 50, lowerBound = 0.0)
+            val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + scoringOffset, lowerBound = 0.0)
             score = ((distanceFlownFromFirstPipe) / pipeOffset).toInt()
                 .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
 
