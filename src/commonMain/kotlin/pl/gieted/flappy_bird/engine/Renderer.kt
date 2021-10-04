@@ -3,7 +3,7 @@ package pl.gieted.flappy_bird.engine
 import pl.gieted.flappy_bird.game.LoadingScene
 import kotlin.math.roundToInt
 
-class Renderer : Processing() {
+class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}): Processing() {
 
     companion object {
         const val windowWidth = 1440
@@ -39,9 +39,7 @@ class Renderer : Processing() {
     private var windowScale = 0.0
 
     override fun setup() {
-        surface.setTitle("Flappy Bird")
-        surface.setResizable(false)
-
+        setExtraSettings()
         lastDrawTime = millis()
         scene.setup()
     }
@@ -65,6 +63,5 @@ class Renderer : Processing() {
         }
         println("Window scale: $windowScale")
         size((windowWidth * windowScale).roundToInt(), (windowHeight * windowScale).roundToInt(), P2D)
-        setIcon(*(1..5).map { "favicons/favicon-$it.png" }.toTypedArray())
     }
 }

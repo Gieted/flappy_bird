@@ -2,11 +2,8 @@ package pl.gieted.flappy_bird.engine
 
 @Suppress("PropertyName")
 expect open class Processing() {
-    class Surface {
-        fun setTitle(title: String)
-
-        fun setResizable(resizable: Boolean)
-    }
+    
+    fun start()
     
     suspend fun loadImage(path: String): Image
 
@@ -39,11 +36,7 @@ expect open class Processing() {
 
     open fun settings()
     
-    protected val surface: Surface
-
     fun radians(degrees: Float): Float
-
-    fun setIcon(vararg paths: String)
     
     val P2D: String
     

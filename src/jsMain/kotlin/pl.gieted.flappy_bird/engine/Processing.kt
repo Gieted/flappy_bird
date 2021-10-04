@@ -8,25 +8,7 @@ import kotlin.coroutines.suspendCoroutine
 
 @Suppress("PropertyName")
 actual open class Processing {
-    private val instance = object : p5({}, document.querySelector("main")!! as HTMLElement) {
-        override fun setup() {
-            this@Processing.settings()
-            createCanvas(sizeX!!, sizeY!!, renderer!!)
-            this@Processing.setup()
-        }
-
-        override fun draw() {
-            this@Processing.draw()
-        }
-    }
-
-    actual class Surface {
-        actual fun setTitle(title: String) {
-        }
-
-        actual fun setResizable(resizable: Boolean) {
-        }
-    }
+    private lateinit var instance: p5
 
     actual suspend fun loadImage(path: String): Image = suspendCoroutine<p5.Image> { continuation ->
         instance.loadImage(path, {
@@ -90,14 +72,7 @@ actual open class Processing {
     actual open fun settings() {
     }
 
-    protected actual val surface: Surface
-        get() = Surface()
-
     actual fun radians(degrees: Float): Float = instance.radians(degrees).toFloat()
-
-    actual fun setIcon(vararg paths: String) {
-        // TODO
-    }
 
     actual val P2D: String = "p2d"
 
@@ -137,4 +112,18 @@ actual open class Processing {
     
     actual val frameRate: Float
         get() = instance.frameRate().toFloat()
+
+    actual fun start() {
+        instance = object : p5({}, document.querySelector("main")!! as HTMLElement) {
+            override fun setup() {
+                this@Processing.settings()
+                createCanvas(sizeX!!, sizeY!!, renderer!!)
+                this@Processing.setup()
+            }
+
+            override fun draw() {
+                this@Processing.draw()
+            }
+        }
+    }
 }
