@@ -18,9 +18,6 @@ actual class Image(val p5Image: p5.Image) {
         }
 
     actual fun resize(x: Int, y: Int) {
-        if (x == 200) {
-            println("boo")
-        }
         p5Image.resize(x, y)
     }
 }
