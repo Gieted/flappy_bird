@@ -130,7 +130,7 @@ class Bird(
                 )
             }
 
-            position += Vector2(0, yVelocity)
+            position += Vector2(0, yVelocity * (deltaTime / 16.0))
         }
     }
 

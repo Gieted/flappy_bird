@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "pl.gieted.flappy_bird"
-version = "1.11-SNAPSHOT"
+version = "1.12-SNAPSHOT"
 
 application {
     mainClass.set("pl.gieted.flappy_bird.MainKt")
@@ -26,7 +26,7 @@ kotlin {
             useJUnit()
         }
     }
-    js(IR) {
+    js {
         binaries.executable()
         browser {
             commonWebpackConfig { 
