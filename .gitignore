@@ -121,3 +121,4 @@ gradle-app.setting
 
 high_score.data
 externals/
+.firebase/

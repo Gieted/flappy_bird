@@ -9,15 +9,15 @@ plugins {
 group = "pl.gieted.flappy_bird"
 version = "1.12-SNAPSHOT"
 
-application {
-    mainClass.set("pl.gieted.flappy_bird.MainKt")
-}
-
 launch4j {
     mainClassName = "pl.gieted.flappy_bird.MainKt"
     icon = "${projectDir}/favicon.ico"
     bundledJrePath = "./jre"
     bundledJre64Bit = true
+}
+
+application {
+    mainClass.set("pl.gieted.flappy_bird.MainKt")
 }
 
 kotlin {
