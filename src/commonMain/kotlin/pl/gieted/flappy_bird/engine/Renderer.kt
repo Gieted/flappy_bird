@@ -49,8 +49,9 @@ class Renderer : Processing() {
     override fun draw() {
         background(0)
         scale(windowScale.toFloat())
-        deltaTime = millis() - lastDrawTime
-        lastDrawTime = millis()
+        val currentTime = millis()
+        deltaTime = currentTime - lastDrawTime
+        lastDrawTime = currentTime
         mousePressedThisFrame = mousePressed && !mousePressedLastFrame
         mousePressedLastFrame = mousePressed
         scene.draw()

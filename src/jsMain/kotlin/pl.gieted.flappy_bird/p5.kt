@@ -3,8 +3,6 @@ package pl.gieted.flappy_bird
 import org.w3c.dom.HTMLElement
 import org.w3c.dom.events.Event
 
-@JsModule("p5")
-@JsNonModule
 @Suppress("ClassName")
 open external class p5(sketch: (args: Any) -> Any, node: HTMLElement = definedExternally) {
     class Image {

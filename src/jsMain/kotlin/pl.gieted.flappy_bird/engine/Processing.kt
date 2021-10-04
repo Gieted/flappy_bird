@@ -1,12 +1,14 @@
 package pl.gieted.flappy_bird.engine
 
+import kotlinx.browser.document
+import org.w3c.dom.HTMLElement
 import pl.gieted.flappy_bird.p5
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 @Suppress("PropertyName")
 actual open class Processing {
-    private val instance = object : p5({}) {
+    private val instance = object : p5({}, document.querySelector("main")!! as HTMLElement) {
         override fun setup() {
             this@Processing.settings()
             createCanvas(sizeX!!, sizeY!!, renderer!!)
