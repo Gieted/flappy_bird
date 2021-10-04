@@ -34,6 +34,8 @@ kotlin {
             }
         }
     }
+
+    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting {
             dependencies {
