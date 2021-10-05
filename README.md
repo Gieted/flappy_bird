@@ -2,4 +2,6 @@
 
 A Flappy Bird clone made in processing.
 
-It's hosted live on: amazing-pictures-12.web.app.
+There are Web and Java versions available.
+
+It's hosted live at: https://super-flappy-bird.web.app/.
