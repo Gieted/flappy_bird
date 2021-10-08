@@ -7,7 +7,7 @@ fun main() {
     val renderer = Renderer {
         pApplet.surface.apply {
             setTitle("Flappy Bird")
-            setResizable(false)
+            setResizable(true)
         }
     }
     setIcon(*(1..5).map { "favicons/favicon-$it.png" }.toTypedArray())
