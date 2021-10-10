@@ -52,7 +52,8 @@ class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}): Processi
         lastDrawTime = currentTime
         mousePressedThisFrame = mousePressed && !mousePressedLastFrame
         mousePressedLastFrame = mousePressed
-        scene.draw()
+//        scene.draw()
+        rect(0f, 0f, 20f, 20f)
     }
 
     override fun settings() {

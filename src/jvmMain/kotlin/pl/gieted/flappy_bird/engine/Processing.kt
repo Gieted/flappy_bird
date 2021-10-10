@@ -4,7 +4,7 @@ import processing.core.PApplet
 
 @Suppress("PropertyName")
 actual open class Processing actual constructor() {
-    
+
     val pApplet: PApplet = PAppletWrapper(this)
 
     actual suspend fun loadImage(path: String): Image = pApplet.loadImage(path)
