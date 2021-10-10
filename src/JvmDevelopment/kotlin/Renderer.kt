@@ -38,10 +38,11 @@ class Renderer(val instance: Any) {
         instance::class.memberProperties.find { it.name == "scene" }!! as KMutableProperty1<Any, Any>
     
     private val pAppletProperty =
-        instance::class.supertypes.first().jvmErasure.memberProperties.find { it.name == "pApplet" }!! as KProperty1<Any, Any>
+        instance::class.memberProperties.find { it.name == "pApplet" }!! as KProperty1<Any, Any>
     
     private val startFunc = instance::class.memberFunctions.find { it.name == "start" }!!
     private val setupFunc = instance::class.memberFunctions.find { it.name == "setup" }!!
+    private val settingsFunc = instance::class.memberFunctions.find { it.name == "settings" }!!
 
     var scene: GameScene
         get() = GameScene(sceneProperty.get(instance))
@@ -58,4 +59,6 @@ class Renderer(val instance: Any) {
     fun start() = startFunc.call(instance)
 
     fun setup() = setupFunc.call(instance)
+    
+    fun settings() = settingsFunc.call(instance)
 }

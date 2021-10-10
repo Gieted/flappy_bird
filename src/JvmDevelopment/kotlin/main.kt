@@ -28,12 +28,19 @@ fun main() {
 
         val pAppletWrapper = renderer.pApplet
 
+        println(renderer.pApplet.instance)
+
         Renderer.reload()
         renderer = Renderer.create()
 
+        println(renderer.pApplet.instance)
+
         renderer.pApplet = pAppletWrapper
         pAppletWrapper.processing = renderer
+        renderer.settings()
         renderer.setup()
+
+        println(renderer.pApplet.instance)
 
         if (preserveResources) {
             GameScene.reload()
