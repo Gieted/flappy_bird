@@ -1,35 +1,32 @@
+@file:Suppress("UNUSED_VARIABLE")
+
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
     kotlin("multiplatform") version "1.5.31"
-    id("application")
     id("edu.sc.seis.launch4j") version "2.5.0"
 }
 
 group = "pl.gieted.flappy_bird"
 version = "1.12-SNAPSHOT"
 
-application {
-    mainClass.set("pl.gieted.flappy_bird.MainKt")
-}
-
 kotlin {
     jvm {
-        withJava()
-        testRuns["test"].executionTask.configure {
-            useJUnit()
+        compilations {
+            val main by getting
+
+            val development by creating
         }
     }
     js {
         binaries.executable()
         browser {
-            commonWebpackConfig { 
+            commonWebpackConfig {
                 devServer?.open = false
             }
         }
     }
 
-    @Suppress("UNUSED_VARIABLE")
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -52,6 +49,13 @@ kotlin {
             dependencies {
                 implementation(npm("p5", "^1.4.0"))
                 compileOnly(npm("@types/p5", "^1.3.1"))
+            }
+        }
+        val jvmDevelopment by getting {
+            dependsOn(jvmMain)
+            
+            dependencies {
+                implementation(kotlin("reflect"))
             }
         }
     }
