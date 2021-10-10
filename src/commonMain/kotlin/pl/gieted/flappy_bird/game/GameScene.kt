@@ -11,7 +11,7 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
     companion object {
         const val firstPipeOffset = 1000
         const val pipeOffset = 350.0
-        const val groundLevel = -29
+        const val groundLevel = -290
         const val maxPipeHeight = 225.0
         const val minPipeHeight = -125.0
         const val scoringOffset = 25 

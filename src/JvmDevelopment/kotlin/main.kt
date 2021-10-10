@@ -13,54 +13,64 @@ import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
 
+const val classesUrl = "build\\classes\\kotlin\\jvm\\main"
+const val resourcesUrl = "build\\processedResources\\jvm\\main"
+
+object MainClassLoader : ClassLoader() {
+    private class MyClassLoader : URLClassLoader(
+        listOf(classesUrl, resourcesUrl).map { File(it).toURI().toURL() }.toTypedArray(), null
+    ) {
+
+        override fun loadClass(name: String?, resolve: Boolean): Class<*> = MainClassLoader.loadClass(name)
+
+        fun actuallyLoad(name: String): Class<*> = super.loadClass(name, false)
+    }
+
+    private val staticClassLoader = MyClassLoader()
+    private var preloadingLoader = MyClassLoader()
+    private var gameSceneLoader = MyClassLoader()
+
+    private val staticClasses = listOf(
+        "pl.gieted.flappy_bird.engine.Renderer",
+        "pl.gieted.flappy_bird.engine.Processing",
+        "pl.gieted.flappy_bird.engine.Scene",
+        "pl.gieted.flappy_bird.engine.LifecycleElement",
+        
+        "pl.gieted.flappy_bird.engine.Object",
+        "pl.gieted.flappy_bird.engine.Vector2",
+        "pl.gieted.flappy_bird.engine.Sound",
+        "pl.gieted.flappy_bird.engine.Camera",
+        "pl.gieted.flappy_bird.engine.Bounds",
+    )
+
+    private val preloadingClasses = listOf(
+        "pl.gieted.flappy_bird.game.LoadingScene",
+        "pl.gieted.flappy_bird.game.FlappyBirdResourceLoader",
+        "pl.gieted.flappy_bird.game.Resources",
+        "pl.gieted.flappy_bird.game.objects.Bird\$Color"
+    )
+
+    override fun loadClass(name: String, resolve: Boolean): Class<*> = when {
+        staticClasses.any { name.startsWith(it) } -> staticClassLoader.actuallyLoad(name)
+        preloadingClasses.any { name.startsWith(it) } -> preloadingLoader.actuallyLoad(name)
+        name.startsWith("pl.gieted.flappy_bird") -> gameSceneLoader.actuallyLoad(name)
+        else -> MainClassLoader::class.java.classLoader.loadClass(name)
+    }
+
+    fun newRenderer() {
+        preloadingLoader = MyClassLoader()
+    }
+
+    fun newGameScene() {
+        gameSceneLoader = MyClassLoader()
+    }
+}
+
 fun main() {
-    val classesUrl = "build\\classes\\kotlin\\jvm\\main"
     val fileWatcher = FileSystems.getDefault().newWatchService()
     Paths.get(classesUrl).register(fileWatcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY)
 
-    lateinit var gameSceneLoader: ClassLoader
-
-    val mainClassLoader = object : URLClassLoader(arrayOf(File(classesUrl).toURI().toURL()), null) {
-
-        val staticClasses = listOf(
-            "pl.gieted.flappy_bird.engine.Renderer",
-            "pl.gieted.flappy_bird.engine.Processing",
-            "pl.gieted.flappy_bird.engine.Scene",
-            "pl.gieted.flappy_bird.engine.LifecycleElement",
-        )
-        
-        override fun findClass(name: String): Class<*>? {
-            return when {
-                staticClasses.any { name.startsWith(it) } -> super.findClass(name)
-                name.startsWith("pl.gieted.flappy_bird") -> null
-                else -> this::class.java.classLoader.loadClass(name)
-            }
-        }
-    }
-
-    fun createPreloadingLoader() = object : URLClassLoader(arrayOf(File(classesUrl).toURI().toURL()), mainClassLoader) {
-
-        val preloadingClasses = listOf(
-            "pl.gieted.flappy_bird.game.LoadingScene",
-            "pl.gieted.flappy_bird.game.FlappyBirdResourceLoader",
-            "pl.gieted.flappy_bird.game.Resources",
-        )
-        
-        override fun findClass(name: String): Class<*>? {
-            return when {
-                preloadingClasses.any { name.startsWith(it) } -> super.findClass(name)
-                else -> null
-            }
-        }
-    }
-
-    var preloadingLoader = createPreloadingLoader()
-
-    fun createGameSceneLoader() = URLClassLoader(arrayOf(File(classesUrl).toURI().toURL()), preloadingLoader)
-
-    gameSceneLoader = createGameSceneLoader()
-
-    val rendererClass = gameSceneLoader.loadClass("pl.gieted.flappy_bird.engine.Renderer").kotlin as KClass<Any>
+    val rendererClass = MainClassLoader.loadClass("pl.gieted.flappy_bird.engine.Renderer").kotlin as KClass<Any>
     val rendererConstructor = rendererClass.constructors.first()
 
     val renderer = run {
@@ -74,16 +84,21 @@ fun main() {
 
         rendererConstructor.call(setExtraSettings)
     }
+    
     val sceneProperty = rendererClass.memberProperties.find { it.name == "scene" }!! as KMutableProperty1<Any, Any>
 
     setIcon(*(1..5).map { "favicons/favicon-$it.png" }.toTypedArray())
 
-    fun reloadLoadingScene() {
+    fun loadGameSceneClass() = MainClassLoader.loadClass("pl.gieted.flappy_bird.game.GameScene").kotlin as KClass<Any>
+
+    var gameSceneClass: KClass<Any> = loadGameSceneClass()
+
+    fun reloadRenderer() {
+        
     }
 
     fun reloadGameScene() {
-        gameSceneLoader = createGameSceneLoader()
-        val gameSceneClass = gameSceneLoader.loadClass("pl.gieted.flappy_bird.game.GameScene").kotlin as KClass<Any>
+        MainClassLoader.newGameScene()
         val oldScene = sceneProperty.get(renderer)
 
         val resources =
@@ -95,11 +110,13 @@ fun main() {
             gameSceneClass.memberProperties.find { it.name == "highScore" }!!.also { it.isAccessible = true }
                 .get(oldScene)
 
+        gameSceneClass = loadGameSceneClass()
+
         val gameScene = gameSceneClass.constructors.first().call(
             renderer,
             resources,
             highScore
-        ) as GameScene
+        )
 
         sceneProperty.set(renderer, gameScene)
     }
@@ -109,13 +126,13 @@ fun main() {
     while (true) {
         val watchKey = fileWatcher.take()
 
-        Thread.sleep(1000)
+        Thread.sleep(2000)
         watchKey.pollEvents()
         watchKey.reset()
 
         println("Reloading classes")
         if (sceneProperty.get(renderer)::class.simpleName!! == "GameScene") {
-            reloadGameScene()
+            reloadRenderer()
         }
     }
 }
