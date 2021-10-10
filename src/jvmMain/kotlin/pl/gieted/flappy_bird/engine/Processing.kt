@@ -5,19 +5,7 @@ import processing.core.PApplet
 @Suppress("PropertyName")
 actual open class Processing actual constructor() {
     
-    val pApplet = object : PApplet() {
-        override fun setup() {
-            this@Processing.setup()
-        }
-
-        override fun draw() {
-            this@Processing.draw()
-        }
-
-        override fun settings() {
-            this@Processing.settings()
-        }
-    }
+    val pApplet: PApplet = PAppletWrapper(this)
 
     actual suspend fun loadImage(path: String): Image = pApplet.loadImage(path)
 
