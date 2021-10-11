@@ -5,6 +5,7 @@ open class FullscreenRectangle(renderer: Renderer, color: Color = Color.default,
 
     override fun draw() {
         with(renderer) {
+            size = Vector2(width, Renderer.defaultHeight) + Vector2.defaultSize
             position = camera.position
         }
         super.draw()

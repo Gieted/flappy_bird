@@ -23,15 +23,10 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
     private val highScoreRepository = HighScoreRepository()
 
     private fun loadBackgroundImage() {
-        with(renderer) {
-            lifecycleScope.launch {
-                val backgroundImage = resourceLoader.loadImage(backgroundImagePath)
-                if (backgroundImage.width != width) {
-                    backgroundImage.resize(width, height)
-                }
-                addObject(Background(renderer, backgroundImage))
-                dipFromBlack.start()
-            }
+        lifecycleScope.launch {
+            val backgroundImage = resourceLoader.loadImage(backgroundImagePath)
+            addObject(Background(renderer, backgroundImage))
+            dipFromBlack.start()
         }
     }
 
@@ -69,7 +64,7 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
             val sceneExitTime = sceneExitTime
             if (sceneExitTime != null && millis() > sceneExitTime) {
                 once("dipToBlack") {
-//                    addObject(dipToBlack)
+                    addObject(dipToBlack)
                 }
                 if (dipToBlack.isFinished) {
                     scene = GameScene(renderer, resources!!, highScore!!)

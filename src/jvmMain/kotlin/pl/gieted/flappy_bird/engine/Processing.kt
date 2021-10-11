@@ -12,7 +12,7 @@ actual open class Processing actual constructor() {
     actual val height: Int
         get() = pApplet.height
 
-    actual val width: Int
+    actual open val width: Int
         get() = pApplet.width
 
     actual fun background(image: Image) = pApplet.background(image)

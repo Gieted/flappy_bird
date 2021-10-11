@@ -3,11 +3,11 @@ package pl.gieted.flappy_bird.engine
 import pl.gieted.flappy_bird.game.LoadingScene
 import kotlin.math.roundToInt
 
-class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}): Processing() {
+class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}) : Processing() {
 
     companion object {
-        const val windowWidth = 1440
-        const val windowHeight = 810
+        const val defaultWidth = 1440
+        const val defaultHeight = 810
         const val soundVolume = 0.1
     }
 
@@ -36,7 +36,11 @@ class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}): Processi
         translate(-anchorPoint.x.toFloat(), anchorPoint.y.toFloat())
     }
 
-    private var windowScale = 0.0
+    override val width: Int
+        get() = (super.width / gameScale).roundToInt()
+
+    private val gameScale
+     get() = height.toFloat() / defaultHeight
 
     override fun setup() {
         setExtraSettings()
@@ -46,7 +50,8 @@ class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}): Processi
 
     override fun draw() {
         background(0)
-        scale(windowScale.toFloat())
+        translate(super.width.toFloat() / 2 - defaultWidth * gameScale / 2, 0f)
+        scale(gameScale)
         val currentTime = millis()
         deltaTime = currentTime - lastDrawTime
         lastDrawTime = currentTime
@@ -56,12 +61,12 @@ class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}): Processi
     }
 
     override fun settings() {
-        windowScale = if (displayWidth > displayHeight) {
+        val windowScale = if (displayWidth > displayHeight) {
             displayHeight / 1080.0
         } else {
             displayWidth / 1920.0
         }
         println("Window scale: $windowScale")
-        size((windowWidth * windowScale).roundToInt(), (windowHeight * windowScale).roundToInt(), P2D)
+        size((defaultWidth * windowScale).roundToInt(), (defaultHeight * windowScale).roundToInt(), P2D)
     }
 }

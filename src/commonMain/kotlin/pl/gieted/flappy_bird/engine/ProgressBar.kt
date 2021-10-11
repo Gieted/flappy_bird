@@ -15,10 +15,11 @@ class ProgressBar(
     ) {
 
     var progressPercentage: Double = 0.0
-        set(value) {
-            val width = Renderer.windowWidth * (value / 100)
-            position = Vector2(-Vector2.halfScreen.x + width / 2, yPosition)
-            size = Vector2(width, height)
-            field = value
-        }
+
+    override fun draw() {
+        val width = renderer.width * (progressPercentage / 100)
+        position = Vector2(-renderer.width / 2 + width / 2, yPosition)
+        size = Vector2(width, height)
+        super.draw()
+    }
 }

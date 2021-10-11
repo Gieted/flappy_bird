@@ -67,8 +67,8 @@ class FlappyBirdResourceLoader(renderer: Renderer) : ResourceLoader(renderer) {
 
     private fun resizeBackground(texture: Image) {
         texture.resize(
-            texture.width * (texture.height.toDouble() / Renderer.windowHeight).toInt(),
-            Renderer.windowHeight
+            texture.width * (texture.height.toDouble() / Renderer.defaultHeight).toInt(),
+            Renderer.defaultHeight
         )
     }
 

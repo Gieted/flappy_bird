@@ -33,7 +33,6 @@ fun main() {
         
         renderer.pApplet = pAppletWrapper
         pAppletWrapper.processing = renderer
-        renderer.settings()
         renderer.setup()
         
         if (preserveResources) {

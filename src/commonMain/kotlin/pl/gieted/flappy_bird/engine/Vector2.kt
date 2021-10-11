@@ -16,8 +16,8 @@ data class Vector2(val x: Double, val y: Double) {
     companion object {
         val one = Vector2(1, 1)
         val zero = Vector2(0, 0)
-        val screen = Vector2(Renderer.windowWidth, Renderer.windowHeight)
-        val halfScreen = Vector2(Renderer.windowWidth / 2.0, Renderer.windowHeight / 2.0)
+        val screen = Vector2(Renderer.defaultWidth, Renderer.defaultHeight)
+        val halfScreen = Vector2(Renderer.defaultWidth / 2.0, Renderer.defaultHeight / 2.0)
         val defaultSize = Vector2(50, 50)
     }
 }

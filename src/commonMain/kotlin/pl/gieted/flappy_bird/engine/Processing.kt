@@ -9,7 +9,7 @@ expect open class Processing() {
 
     val height: Int
     
-    val width: Int
+    open val width: Int
 
     fun background(image: Image)
 

@@ -19,7 +19,7 @@ actual open class Processing {
     actual val height: Int
         get() = instance.height.toInt()
 
-    actual val width: Int
+    actual open val width: Int
         get() = instance.width.toInt()
 
     actual fun background(image: Image) {
