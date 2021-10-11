@@ -37,9 +37,4 @@ object DevClassLoader : ClassLoader() {
     fun newRenderer() {
         rendererLoader = MyClassLoader()
     }
-
-    fun newResources() {
-        newRenderer()
-        resourcesLoader = MyClassLoader()
-    }
 }
