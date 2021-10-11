@@ -69,7 +69,7 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
             val sceneExitTime = sceneExitTime
             if (sceneExitTime != null && millis() > sceneExitTime) {
                 once("dipToBlack") {
-                    addObject(dipToBlack)
+//                    addObject(dipToBlack)
                 }
                 if (dipToBlack.isFinished) {
                     scene = GameScene(renderer, resources!!, highScore!!)
