@@ -6,8 +6,8 @@ import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.javaField
-import kotlin.reflect.jvm.jvmErasure
 
+@Suppress("UNCHECKED_CAST")
 class Renderer(val instance: Any) {
     companion object {
         init {

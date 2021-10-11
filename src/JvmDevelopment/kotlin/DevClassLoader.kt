@@ -13,7 +13,7 @@ object DevClassLoader : ClassLoader() {
 
     private val staticLoader = MyClassLoader()
     private var rendererLoader = MyClassLoader()
-    private var resourcesLoader = MyClassLoader()
+    private val resourcesLoader = MyClassLoader()
 
     private val staticClasses = listOf(
         "pl.gieted.flappy_bird.engine.Processing",
@@ -22,26 +22,31 @@ object DevClassLoader : ClassLoader() {
 
     private val resourcesClasses = listOf(
         "pl.gieted.flappy_bird.game.objects.Bird\$Color",
-//        "pl.gieted.flappy_bird.game.LoadingScene",
-//        "pl.gieted.flappy_bird.game.FlappyBirdResourceLoader",
         "pl.gieted.flappy_bird.game.Resources",
         "pl.gieted.flappy_bird.engine.Sound",
         "pl.gieted.flappy_bird.engine.Image",
     )
 
-    override fun loadClass(name: String, resolve: Boolean): Class<*> = when {
-        staticClasses.any { name.startsWith(it) } -> staticLoader.actuallyLoad(name)
-        resourcesClasses.any { name.startsWith(it) } -> resourcesLoader.actuallyLoad(name)
-        name.startsWith("pl.gieted.flappy_bird") -> rendererLoader.actuallyLoad(name)
-        else -> DevClassLoader::class.java.classLoader.loadClass(name)
+    override fun loadClass(name: String, resolve: Boolean): Class<*> {
+        return when {
+            name == "pl.gieted.flappy_bird.engine.Image" -> throw ClassNotFoundException()
+            name.startsWith("pl.gieted.flappy_bird") -> try {
+                when {
+                    staticClasses.any { name.startsWith(it) } -> staticLoader.actuallyLoad(name)
+                    resourcesClasses.any { name.startsWith(it) } -> resourcesLoader.actuallyLoad(name)
+                    else -> rendererLoader.actuallyLoad(name)
+                }
+            } catch (exception: ClassNotFoundException) {
+                println("Waiting for classes...")
+                Thread.sleep(1000)
+                return loadClass(name, resolve)
+            }
+            else -> DevClassLoader::class.java.classLoader.loadClass(name)
+        }
+
     }
 
     fun newRenderer() {
         rendererLoader = MyClassLoader()
-    }
-
-    fun newResources() {
-        newRenderer()
-        resourcesLoader = MyClassLoader()
     }
 }

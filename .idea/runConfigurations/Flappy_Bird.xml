@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Flappy Bird" type="JetRunConfigurationType">
-    <option name="MAIN_CLASS_NAME" value="pl.gieted.flappy_bird.MainKt" />
-    <module name="flappy_bird.jvmMain" />
+    <option name="MAIN_CLASS_NAME" value="MainKt" />
+    <module name="flappy_bird.jvmDevelopment" />
     <shortenClasspath name="NONE" />
     <method v="2">
       <option name="Make" enabled="true" />

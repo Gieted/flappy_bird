@@ -49,7 +49,7 @@ fun main() {
     while (true) {
         val watchKey = fileWatcher.take()
 
-        Thread.sleep(2000)
+        Thread.sleep(1000)
         watchKey.pollEvents()
         watchKey.reset()
 

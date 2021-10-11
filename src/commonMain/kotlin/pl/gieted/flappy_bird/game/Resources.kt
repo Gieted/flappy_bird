@@ -26,7 +26,7 @@ data class Resources(
         val greenPipe: Image,
         val redPipe: Image,
         val birds: Map<BirdObject.Color, Bird>,
-        val digits: List<Image>
+        val digits: List<Image>,
     ) {
         data class Bird(
             val downFlap: Image,
