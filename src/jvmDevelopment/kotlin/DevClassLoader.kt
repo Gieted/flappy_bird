@@ -22,8 +22,6 @@ object DevClassLoader : ClassLoader() {
 
     private val resourcesClasses = listOf(
         "pl.gieted.flappy_bird.game.objects.Bird\$Color",
-//        "pl.gieted.flappy_bird.game.LoadingScene",
-//        "pl.gieted.flappy_bird.game.FlappyBirdResourceLoader",
         "pl.gieted.flappy_bird.game.Resources",
         "pl.gieted.flappy_bird.engine.Sound",
         "pl.gieted.flappy_bird.engine.Image",
