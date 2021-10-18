@@ -70,4 +70,8 @@ open external class p5(sketch: (args: Any) -> Any, node: HTMLElement = definedEx
     fun image(img: Image, x: Number, y: Number)
 
     fun frameRate(): Number
+
+    fun noSmooth(): p5
+
+    fun image(img: Image, x: Number, y: Number, width: Number, height: Number)
 }

@@ -10,6 +10,7 @@ class ScoreDisplay(renderer: Renderer, private val digitTextures: List<Image>) :
 
     companion object {
         const val digitOffset = 0
+        const val digitScale = 1.25
     }
 
     var score = 0
@@ -17,8 +18,8 @@ class ScoreDisplay(renderer: Renderer, private val digitTextures: List<Image>) :
     override fun setup() {
     }
 
-    private val digitHeight = digitTextures.first().height
-    private val digitWidth = digitTextures.first().width
+    private val digitHeight = digitTextures.first().height * digitScale
+    private val digitWidth = digitTextures.first().width * digitScale
 
     override fun draw() {
         super.draw()
@@ -31,7 +32,9 @@ class ScoreDisplay(renderer: Renderer, private val digitTextures: List<Image>) :
                 image(
                     digitTextures[it.digitToInt()],
                     nextDigitXPos.toFloat(),
-                    (-position.y - digitHeight / 2).toFloat()
+                    (-position.y - digitHeight / 2).toFloat(),
+                    digitWidth.toFloat(),
+                    digitHeight.toFloat()
                 )
                 nextDigitXPos += digitWidth + digitOffset
             }

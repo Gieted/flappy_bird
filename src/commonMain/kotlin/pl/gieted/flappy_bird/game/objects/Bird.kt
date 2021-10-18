@@ -14,7 +14,7 @@ class Bird(
     private val onDeath: () -> Unit,
     private val swingSound: Sound,
     private val fallSound: Sound
-) : Sprite(renderer, Vector2(0, autopilotHeight), texture = textures.downFlap), CollisionListener {
+) : Sprite(renderer, Vector2(0, autopilotHeight), texture = textures.downFlap, scale = 1.47), CollisionListener {
 
     companion object {
         const val wingFlapInterval = 100

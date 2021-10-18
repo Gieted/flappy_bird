@@ -126,4 +126,16 @@ actual open class Processing {
             }
         }
     }
+    
+    actual fun noSmooth() {
+        instance.noSmooth()
+    }
+
+    actual fun image(
+        image: Image,
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float
+    ) = instance.image(image.p5Image, x, y, width, height)
 }

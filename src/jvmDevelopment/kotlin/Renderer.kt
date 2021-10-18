@@ -30,7 +30,6 @@ class Renderer(val instance: Any) {
                 setTitle("Flappy Bird (dev)")
                 setResizable(true)
             }
-            pApplet.noSmooth()
         }
 
         fun create() = Renderer(constructor.call(false, setExtraSettings))

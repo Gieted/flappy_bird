@@ -59,6 +59,10 @@ expect open class Processing() {
     fun tint(color: Int, alpha: Float)
     
     fun image(image: Image, x: Float, y: Float)
+    
+    fun image(image: Image, x: Float, y: Float, width: Float, height: Float)
 
     val frameRate: Float
+    
+    fun noSmooth()
 }

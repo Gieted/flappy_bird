@@ -110,3 +110,7 @@ repositories {
     mavenCentral()
     google()
 }
+
+configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
+    versions.webpackCli.version = "4.9.0"
+}

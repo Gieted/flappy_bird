@@ -99,7 +99,7 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
         addObject(
             ScrollingElement(
                 renderer,
-                { Sprite(renderer, Vector2(0, -Vector2.halfScreen.y), texture = resources.images.base) },
+                { Sprite(renderer, Vector2(0, -Vector2.halfScreen.y), texture = resources.images.base, scale = 2.0) },
                 zIndex = 5,
                 offset = resources.images.base.width - 1.0
             )

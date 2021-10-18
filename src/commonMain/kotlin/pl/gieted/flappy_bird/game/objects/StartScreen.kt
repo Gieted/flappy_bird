@@ -6,7 +6,7 @@ import pl.gieted.flappy_bird.engine.Sprite
 import pl.gieted.flappy_bird.engine.Vector2
 
 class StartScreen(renderer: Renderer, texture: Image) :
-    Sprite(renderer, Vector2(0, yPosition), zIndex = 10, texture = texture) {
+    Sprite(renderer, Vector2(0, yPosition), zIndex = 10, texture = texture, scale = 1.5) {
 
     private companion object {
         const val yPosition = 75

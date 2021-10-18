@@ -2,7 +2,7 @@ package pl.gieted.flappy_bird.game.objects
 
 import pl.gieted.flappy_bird.engine.*
 
-class GameOver(renderer: Renderer, texture: Image) : Sprite(renderer, Vector2(0, yPosition), texture = texture),
+class GameOver(renderer: Renderer, texture: Image) : Sprite(renderer, Vector2(0, yPosition), texture = texture, scale = 1.5),
     Animation {
 
     companion object {

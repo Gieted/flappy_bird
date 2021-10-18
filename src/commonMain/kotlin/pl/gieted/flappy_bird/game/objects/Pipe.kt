@@ -12,13 +12,14 @@ class Pipe(renderer: Renderer, position: Vector2 = Vector2.zero, texture: Image)
 
     companion object {
         const val gapHeight = 350
+        const val scale = 1.9
     }
 
-    private val upperPipe = Sprite(renderer, position, rotation = 180.0, texture = texture)
-    private val lowerPipe = Sprite(renderer, position, texture = texture)
+    private val upperPipe = Sprite(renderer, position, rotation = 180.0, texture = texture, scale = scale)
+    private val lowerPipe = Sprite(renderer, position, texture = texture, scale = scale)
 
     override val size: Vector2
-        get() = Vector2(upperPipe.texture.width, upperPipe.texture.height * 2 - gapHeight)
+        get() = Vector2(upperPipe.size.x, upperPipe.size.y * 2 - gapHeight)
 
     override var position: Vector2
         get() = super.position

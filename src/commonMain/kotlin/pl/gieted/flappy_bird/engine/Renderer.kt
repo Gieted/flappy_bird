@@ -38,7 +38,7 @@ class Renderer(private val startFullscreen: Boolean = false, private val setExtr
     }
 
     override val width: Int
-        get() = (super.width / gameScale).roundToInt()
+        get() = (super.width / gameScale).toInt()
 
     private val gameScale
         get() = height.toFloat() / defaultHeight
@@ -71,7 +71,8 @@ class Renderer(private val startFullscreen: Boolean = false, private val setExtr
                 displayWidth / 1920.0
             }
             println("Window scale: $windowScale")
-            size((defaultWidth * windowScale).roundToInt(), (defaultHeight * windowScale).roundToInt(), P2D)
+            size((defaultWidth * windowScale).toInt(), (defaultHeight * windowScale).toInt(), P2D)
         }
+        noSmooth()
     }
 }

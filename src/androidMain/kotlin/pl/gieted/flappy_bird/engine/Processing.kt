@@ -76,4 +76,15 @@ actual open class Processing actual constructor() {
 
     actual val frameRate: Float
         get() = pApplet.frameRate
+
+    actual fun noSmooth() = pApplet.noSmooth()
+
+    actual fun image(
+        image: Image,
+        x: Float,
+        y: Float,
+        width: Float,
+        height: Float
+    ) = pApplet.image(image, x, y, width, height)
 }
+ 
