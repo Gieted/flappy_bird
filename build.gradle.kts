@@ -5,6 +5,7 @@ import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 plugins {
     kotlin("multiplatform") version "1.5.31"
     id("edu.sc.seis.launch4j") version "2.5.0"
+    id ("com.android.application") version "4.2.2"
 }
 
 group = "pl.gieted.flappy_bird"
@@ -26,6 +27,7 @@ kotlin {
             }
         }
     }
+    android()
 
     sourceSets {
         val commonMain by getting {
@@ -33,14 +35,24 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
             }
         }
+        val androidMain by getting {
+            dependencies {
+                implementation(fileTree("libs") {
+                    include("*.jar", "android/*.jar")
+                })
+
+                implementation("androidx.appcompat:appcompat:1.3.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+            }
+        }
         val jvmMain by getting {
             dependencies {
                 implementation(fileTree("libs") {
-                    include("*.jar")
+                    include("*.jar", "desktop/*.jar")
                     if (DefaultNativePlatform.getCurrentOperatingSystem().isWindows) {
-                        include("windows/*.jar")
+                        include("desktop/windows/*.jar")
                     } else {
-                        include("linux/*.jar")
+                        include("desktop/linux/*.jar")
                     }
                 })
             }
@@ -69,6 +81,32 @@ launch4j {
     jarTask = tasks["jvmJar"]
 }
 
+android {
+    compileSdkVersion(31)
+    defaultConfig {
+        applicationId = group.toString()
+        minSdkVersion(24)
+        targetSdkVersion(31)
+        versionName = version.toString()
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    sourceSets {
+        val main by getting {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            assets.srcDirs("src/androidMain/resources", "src/javaMain/resources", "src/commonMain/resources")
+        }
+    }
+}
+
 repositories {
     mavenCentral()
+    google()
 }

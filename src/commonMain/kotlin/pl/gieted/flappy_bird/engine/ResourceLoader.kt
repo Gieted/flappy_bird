@@ -15,7 +15,7 @@ open class ResourceLoader(private val renderer: Renderer) {
         totalTasks++
         println("Loading image: $path")
         val image = async {
-            renderer.loadImage("images/$path")
+            renderer.loadImage(path)
         }
 
         image.invokeOnCompletion { completedTasks++ }
@@ -27,7 +27,7 @@ open class ResourceLoader(private val renderer: Renderer) {
         totalTasks++
         println("Loading sound: $path")
 
-        val sound = Sound(renderer, "sounds/$path")
+        val sound = Sound(renderer, path)
         sound.amp(Renderer.soundVolume.toFloat())
         completedTasks++
 

@@ -76,6 +76,4 @@ actual open class Processing actual constructor() {
 
     actual val frameRate: Float
         get() = pApplet.frameRate
-
-    fun start() = PApplet.runSketch(arrayOf("Flappy Bird"), pApplet)
 }

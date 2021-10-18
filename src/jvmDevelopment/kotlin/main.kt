@@ -49,10 +49,11 @@ fun main() {
         val watchKey = fileWatcher.take()
 
         Thread.sleep(1000)
-        watchKey.pollEvents()
-        watchKey.reset()
 
         println("Reloading classes")
         reloadRenderer("GameScene" in renderer.scene.instance::class.simpleName!!)
+
+        watchKey.pollEvents()
+        watchKey.reset()
     }
 }

@@ -113,7 +113,7 @@ actual open class Processing {
     actual val frameRate: Float
         get() = instance.frameRate().toFloat()
 
-    actual fun start() {
+    fun start() {
         instance = object : p5({}, document.querySelector("main")!! as HTMLElement) {
             override fun setup() {
                 this@Processing.settings()

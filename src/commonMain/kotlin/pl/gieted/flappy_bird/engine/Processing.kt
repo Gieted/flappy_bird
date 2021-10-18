@@ -3,8 +3,6 @@ package pl.gieted.flappy_bird.engine
 @Suppress("PropertyName")
 expect open class Processing() {
     
-    fun start()
-    
     suspend fun loadImage(path: String): Image
 
     val height: Int

@@ -3,7 +3,8 @@ package pl.gieted.flappy_bird.engine
 import pl.gieted.flappy_bird.game.LoadingScene
 import kotlin.math.roundToInt
 
-class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}) : Processing() {
+class Renderer(private val startFullscreen: Boolean = false, private val setExtraSettings: Renderer.() -> Unit = {}) :
+    Processing() {
 
     companion object {
         const val defaultWidth = 1440
@@ -40,7 +41,7 @@ class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}) : Process
         get() = (super.width / gameScale).roundToInt()
 
     private val gameScale
-     get() = height.toFloat() / defaultHeight
+        get() = height.toFloat() / defaultHeight
 
     override fun setup() {
         setExtraSettings()
@@ -61,12 +62,16 @@ class Renderer(private val setExtraSettings: Renderer.() -> Unit = {}) : Process
     }
 
     override fun settings() {
-        val windowScale = if (displayWidth > displayHeight) {
-            displayHeight / 1080.0
+        if (startFullscreen) {
+            size(displayWidth, displayHeight, P2D)
         } else {
-            displayWidth / 1920.0
+            val windowScale = if (displayWidth > displayHeight) {
+                displayHeight / 1080.0
+            } else {
+                displayWidth / 1920.0
+            }
+            println("Window scale: $windowScale")
+            size((defaultWidth * windowScale).roundToInt(), (defaultHeight * windowScale).roundToInt(), P2D)
         }
-        println("Window scale: $windowScale")
-        size((defaultWidth * windowScale).roundToInt(), (defaultHeight * windowScale).roundToInt(), P2D)
     }
 }
