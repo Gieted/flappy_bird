@@ -3,8 +3,11 @@ package pl.gieted.flappy_bird.engine
 import pl.gieted.flappy_bird.game.LoadingScene
 import kotlin.math.roundToInt
 
-class Renderer(private val startFullscreen: Boolean = false, private val setExtraSettings: Renderer.() -> Unit = {}) :
-    Processing() {
+class Renderer(
+    private val startFullscreen: Boolean = false,
+    val interactor: Interactor? = null,
+    private val setExtraSettings: Renderer.() -> Unit = {}
+) : Processing() {
 
     companion object {
         const val defaultWidth = 1440
@@ -59,6 +62,8 @@ class Renderer(private val startFullscreen: Boolean = false, private val setExtr
         mousePressedThisFrame = mousePressed && !mousePressedLastFrame
         mousePressedLastFrame = mousePressed
         scene.draw()
+        
+        interactor?.reportFrameRate(frameRate.toInt())
     }
 
     override fun settings() {
