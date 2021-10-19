@@ -5,7 +5,7 @@ import kotlinx.coroutines.launch
 import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
 
-class LoadingScene(renderer: Renderer) : Scene(renderer) {
+class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScoreRepository) : Scene(renderer) {
 
     private companion object {
         const val backgroundImagePath = "loading.png"
@@ -20,7 +20,6 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
     private var sceneExitTime: Int? = null
     private val dipFromBlack = DipFromBlack(renderer, transitionsSpeed, true)
     private val dipToBlack = DipToBlack(renderer, transitionsSpeed)
-    private val highScoreRepository = HighScoreRepository()
 
     private fun loadBackgroundImage() {
         lifecycleScope.launch {
@@ -67,7 +66,7 @@ class LoadingScene(renderer: Renderer) : Scene(renderer) {
                     addObject(dipToBlack)
                 }
                 if (dipToBlack.isFinished) {
-                    scene = GameScene(renderer, resources!!, highScore!!)
+                    scene = GameScene(renderer, resources!!, highScore!!, highScoreRepository)
                 }
             }
         }

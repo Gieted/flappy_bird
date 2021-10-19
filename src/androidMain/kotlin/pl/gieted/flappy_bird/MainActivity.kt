@@ -6,14 +6,16 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import pl.gieted.flappy_bird.engine.Renderer
+import pl.gieted.flappy_bird.game.HighScoreRepository
 import processing.android.CompatUtils
 import processing.android.PFragment
 
 class MainActivity : AppCompatActivity() {
-    private val renderer = Renderer(startFullscreen = true)
+    private lateinit var renderer: Renderer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        this.renderer = Renderer(startFullscreen = true, highScoreRepository = HighScoreRepository(filesDir))
         val frame = FrameLayout(this)
         frame.id = CompatUtils.getUniqueViewId()
         setContentView(

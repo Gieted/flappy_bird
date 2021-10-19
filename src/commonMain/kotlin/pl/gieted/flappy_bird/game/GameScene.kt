@@ -6,7 +6,7 @@ import pl.gieted.flappy_bird.engine.*
 import pl.gieted.flappy_bird.game.objects.*
 import kotlin.random.Random
 
-class GameScene(renderer: Renderer, private val resources: Resources, private var highScore: Int) : Scene(renderer) {
+class GameScene(renderer: Renderer, private val resources: Resources, private var highScore: Int, private val highScoreRepository: HighScoreRepository) : Scene(renderer) {
 
     companion object {
         const val firstPipeOffset = 1000
@@ -56,7 +56,7 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
         if (score > highScore) {
             highScore = score
             lifecycleScope.launch {
-                HighScoreRepository().saveHighScore(highScore)
+                highScoreRepository.saveHighScore(highScore)
             }
         }
     }
@@ -141,7 +141,7 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
                 deathLockTime -= deltaTime
             }
             if (dipToBlack.isFinished) {
-                scene = GameScene(renderer, resources, highScore)
+                scene = GameScene(renderer, resources, highScore, highScoreRepository)
             }
         }
     }

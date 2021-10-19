@@ -1,10 +1,11 @@
 package pl.gieted.flappy_bird
 
 import pl.gieted.flappy_bird.engine.Renderer
+import pl.gieted.flappy_bird.game.HighScoreRepository
 import processing.opengl.PJOGL.setIcon
 
 fun main() {
-    val renderer = Renderer {
+    val renderer = Renderer(highScoreRepository = HighScoreRepository()) {
         pApplet.surface.apply {
             setTitle("Flappy Bird")
             setResizable(true)

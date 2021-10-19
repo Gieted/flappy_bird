@@ -1,12 +1,13 @@
 package pl.gieted.flappy_bird.engine
 
+import pl.gieted.flappy_bird.game.HighScoreRepository
 import pl.gieted.flappy_bird.game.LoadingScene
-import kotlin.math.roundToInt
 
 class Renderer(
     private val startFullscreen: Boolean = false,
     val interactor: Interactor? = null,
-    private val setExtraSettings: Renderer.() -> Unit = {}
+    highScoreRepository: HighScoreRepository,
+    private val setExtraSettings: Renderer.() -> Unit = {},
 ) : Processing() {
 
     companion object {
@@ -24,7 +25,7 @@ class Renderer(
 
     private var mousePressedLastFrame = false
 
-    var scene: Scene = LoadingScene(this)
+    var scene: Scene = LoadingScene(this, highScoreRepository)
         set(value) {
             scene.destroy()
             field = value

@@ -32,7 +32,10 @@ class Renderer(val instance: Any) {
             }
         }
 
-        fun create() = Renderer(constructor.call(false, setExtraSettings))
+        fun create(): Renderer {
+            HighScoreRepository.reload()
+            return Renderer(constructor.call(false, null, HighScoreRepository.create(), setExtraSettings))
+        }
     }
 
     private val sceneProperty =

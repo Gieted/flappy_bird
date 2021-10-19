@@ -20,7 +20,7 @@ class GameScene(val instance: Any) {
         }
 
         fun create(renderer: Renderer, resources: Any, highScore: Int) =
-            GameScene(constructor.call(renderer.instance, resources, highScore))
+            GameScene(constructor.call(renderer.instance, resources, highScore, HighScoreRepository.create()))
     }
 
     private val resourcesProperty = instance::class.memberProperties.find { it.name == "resources" }!!
