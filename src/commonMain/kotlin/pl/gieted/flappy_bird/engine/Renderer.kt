@@ -44,8 +44,14 @@ class Renderer(
     override val width: Int
         get() = (super.width / gameScale).toInt()
 
+    override val height: Int
+        get() = defaultHeight
+
+    val aspectRatio: Double
+        get() = width.toDouble() / height
+
     private val gameScale
-        get() = height.toFloat() / defaultHeight
+        get() = super.height.toFloat() / defaultHeight
 
     override fun setup() {
         setExtraSettings()
@@ -63,7 +69,7 @@ class Renderer(
         mousePressedThisFrame = mousePressed && !mousePressedLastFrame
         mousePressedLastFrame = mousePressed
         scene.draw()
-        
+
         interactor?.reportFrameRate(frameRate.toInt())
     }
 

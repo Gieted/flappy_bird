@@ -74,4 +74,6 @@ open external class p5(sketch: (args: Any) -> Any, node: HTMLElement = definedEx
     fun noSmooth(): p5
 
     fun image(img: Image, x: Number, y: Number, width: Number, height: Number)
+
+    fun background(v1: Number, v2: Number, v3: Number): p5
 }

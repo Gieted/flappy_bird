@@ -6,7 +6,12 @@ import pl.gieted.flappy_bird.engine.*
 import pl.gieted.flappy_bird.game.objects.*
 import kotlin.random.Random
 
-class GameScene(renderer: Renderer, private val resources: Resources, private var highScore: Int, private val highScoreRepository: HighScoreRepository) : Scene(renderer) {
+class GameScene(
+    renderer: Renderer,
+    private val resources: Resources,
+    private var highScore: Int,
+    private val highScoreRepository: HighScoreRepository
+) : Scene(renderer) {
 
     companion object {
         const val firstPipeOffset = 1000
@@ -14,7 +19,8 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
         const val groundLevel = -290
         const val maxPipeHeight = 225.0
         const val minPipeHeight = -125.0
-        const val scoringOffset = 25 
+        const val scoringOffset = 25
+        const val minCameraXOffset = 75.0
     }
 
     private val startScreen = StartScreen(renderer, resources.images.message)
@@ -112,7 +118,8 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
     override fun draw() {
         super.draw()
         with(renderer) {
-            val distanceFlownFromFirstPipe: Double = limit(bird.distanceFlown - firstPipeOffset + scoringOffset, lowerBound = 0.0)
+            val distanceFlownFromFirstPipe: Double =
+                limit(bird.distanceFlown - firstPipeOffset + scoringOffset, lowerBound = 0.0)
             score = ((distanceFlownFromFirstPipe) / pipeOffset).toInt()
                 .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
 
@@ -130,7 +137,7 @@ class GameScene(renderer: Renderer, private val resources: Resources, private va
                 bird.swing()
             }
 
-            camera.position = Vector2(bird.position.x - Bird.xOffset, 0)
+            camera.position = Vector2(bird.position.x + minCameraXOffset + aspectRatio * 43, 0)
 
             if (!bird.isAlive && mousePressedThisFrame && deathLockTime == 0.0) {
                 once("dipToBlack") {

@@ -5,7 +5,7 @@ expect open class Processing() {
     
     suspend fun loadImage(path: String): Image
 
-    val height: Int
+    open val height: Int
     
     open val width: Int
 
@@ -18,6 +18,8 @@ expect open class Processing() {
     fun millis(): Int
 
     fun background(code: Int)
+    
+    fun background(r: Float, g: Float, b: Float)
 
     fun scale(value: Float)
 

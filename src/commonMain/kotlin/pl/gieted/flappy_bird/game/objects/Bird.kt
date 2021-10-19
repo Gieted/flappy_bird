@@ -18,7 +18,6 @@ class Bird(
 
     companion object {
         const val wingFlapInterval = 100
-        const val xOffset = -150
         const val autopilotHeight = -35
         const val autopilotRange = 5
         const val autopilotSpeed = 0.03

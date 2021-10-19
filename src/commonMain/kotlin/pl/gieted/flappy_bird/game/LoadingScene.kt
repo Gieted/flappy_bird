@@ -1,9 +1,11 @@
 package pl.gieted.flappy_bird.game
 
 import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import pl.gieted.flappy_bird.engine.Renderer
 import pl.gieted.flappy_bird.engine.*
+import pl.gieted.flappy_bird.game.objects.PulsingLogo
 
 class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScoreRepository) : Scene(renderer) {
 
@@ -14,51 +16,41 @@ class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScor
     }
 
     private val resourceLoader = FlappyBirdResourceLoader(renderer)
-    private val progressBar = ProgressBar(renderer)
+    private val progressBar = ProgressBar(renderer, color = Color(248, 183, 51))
     private var resources: Resources? = null
     private var highScore: Int? = null
     private var sceneExitTime: Int? = null
-    private val dipFromBlack = DipFromBlack(renderer, transitionsSpeed, true)
     private val dipToBlack = DipToBlack(renderer, transitionsSpeed)
 
-    private fun loadBackgroundImage() {
-        lifecycleScope.launch {
-            val backgroundImage = resourceLoader.loadImage(backgroundImagePath)
-            addObject(Background(renderer, backgroundImage))
-            dipFromBlack.start()
-        }
+    private suspend fun loadBackgroundImage() {
+        val texture = resourceLoader.loadImage(backgroundImagePath)
+        addObject(PulsingLogo(renderer, texture = texture))
     }
 
-    private fun loadResources() {
+    private suspend fun loadResources() = coroutineScope {
         with(renderer) {
-            lifecycleScope.launch {
-                val deferredResources = async { resourceLoader.loadResources() }
-                val deferredHighScore = async { highScoreRepository.loadHighScore() }
+            val deferredResources = async { resourceLoader.loadResources() }
+            val deferredHighScore = async { highScoreRepository.loadHighScore() }
 
-                resources = deferredResources.await()
-                highScore = deferredHighScore.await()
-                sceneExitTime = millis() + sceneExitOffset
-            }
+            resources = deferredResources.await()
+            highScore = deferredHighScore.await()
+            sceneExitTime = millis() + sceneExitOffset
         }
     }
 
     override fun setup() {
         super.setup()
         addObject(progressBar)
-        addObject(dipFromBlack)
-        loadBackgroundImage()
+        lifecycleScope.launch {
+            loadBackgroundImage()
+            loadResources()
+        }
     }
 
     override fun draw() {
-        super.draw()
         with(renderer) {
+            background(108f, 200f, 81f)
             progressBar.progressPercentage = resourceLoader.progressPercentage
-
-            if (dipFromBlack.isFinished) {
-                once("loadResources") {
-                    loadResources()
-                }
-            }
 
             val sceneExitTime = sceneExitTime
             if (sceneExitTime != null && millis() > sceneExitTime) {
@@ -70,5 +62,6 @@ class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScor
                 }
             }
         }
+        super.draw()
     }
 }

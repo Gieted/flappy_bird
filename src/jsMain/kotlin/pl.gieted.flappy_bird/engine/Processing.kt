@@ -16,7 +16,7 @@ actual open class Processing {
         })
     }.let { Image(it) }
 
-    actual val height: Int
+    actual open val height: Int
         get() = instance.height.toInt()
 
     actual open val width: Int
@@ -138,4 +138,8 @@ actual open class Processing {
         width: Float,
         height: Float
     ) = instance.image(image.p5Image, x, y, width, height)
+
+    actual fun background(r: Float, g: Float, b: Float) {
+        instance.background(r, g, b)
+    }
 }

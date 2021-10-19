@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "pl.gieted.flappy_bird"
-version = "1.12-SNAPSHOT"
+version = "1.13-SNAPSHOT"
 
 kotlin {
     jvm {

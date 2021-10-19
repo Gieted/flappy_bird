@@ -9,7 +9,7 @@ actual open class Processing actual constructor() {
 
     actual suspend fun loadImage(path: String): Image = pApplet.loadImage(path)
 
-    actual val height: Int
+    actual open val height: Int
         get() = pApplet.height
 
     actual open val width: Int
@@ -86,5 +86,6 @@ actual open class Processing actual constructor() {
         width: Float,
         height: Float
     ) = pApplet.image(image, x, y, width, height)
+
+    actual fun background(r: Float, g: Float, b: Float) = pApplet.background(r, g, b)
 }
- 
