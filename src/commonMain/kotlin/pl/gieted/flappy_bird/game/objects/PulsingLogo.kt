@@ -9,19 +9,18 @@ class PulsingLogo(renderer: Renderer, texture: Image) : Sprite(renderer, texture
     companion object {
         private const val minOpacity = 0.6
         private const val topHoldTime = 1000
+        private const val minSize = 0.05
     }
 
     private var direction = 1
-    private var initialDissolveCompleted = false
     private var topHoldCounter = 0
 
     override fun draw() {
         with(renderer) {
-            scale = 0.00025 * width
-            opacity += direction * deltaTime.toDouble() / if (initialDissolveCompleted) 2500 else 1000
+            scale = 0.0001 * width + minSize
+            opacity += direction * deltaTime.toDouble() /  1000
 
             if (direction == 1 && opacity == 1.0) {
-                initialDissolveCompleted = true
                 topHoldCounter += deltaTime
                 
                 if (topHoldCounter > topHoldTime) {

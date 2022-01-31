@@ -21,9 +21,11 @@ class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScor
     private var highScore: Int? = null
     private var sceneExitTime: Int? = null
     private val dipToBlack = DipToBlack(renderer, transitionsSpeed)
+    private var backgroundImageLoaded = false
 
     private suspend fun loadBackgroundImage() {
         val texture = resourceLoader.loadImage(backgroundImagePath)
+        backgroundImageLoaded = true
         addObject(PulsingLogo(renderer, texture = texture))
     }
 
@@ -48,20 +50,22 @@ class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScor
     }
 
     override fun draw() {
-        with(renderer) {
-            background(108f, 200f, 81f)
-            progressBar.progressPercentage = resourceLoader.progressPercentage
+        if (backgroundImageLoaded) {
+            with(renderer) {
+                background(108f, 200f, 81f)
+                progressBar.progressPercentage = resourceLoader.progressPercentage
 
-            val sceneExitTime = sceneExitTime
-            if (sceneExitTime != null && millis() > sceneExitTime) {
-                once("dipToBlack") {
-                    addObject(dipToBlack)
-                }
-                if (dipToBlack.isFinished) {
-                    scene = GameScene(renderer, resources!!, highScore!!, highScoreRepository)
+                val sceneExitTime = sceneExitTime
+                if (sceneExitTime != null && millis() > sceneExitTime) {
+                    once("dipToBlack") {
+                        addObject(dipToBlack)
+                    }
+                    if (dipToBlack.isFinished) {
+                        scene = GameScene(renderer, resources!!, highScore!!, highScoreRepository)
+                    }
                 }
             }
+            super.draw()
         }
-        super.draw()
     }
 }

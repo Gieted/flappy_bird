@@ -34,6 +34,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         renderer.pApplet.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        renderer.pApplet.onDestroy()
     }
 }
