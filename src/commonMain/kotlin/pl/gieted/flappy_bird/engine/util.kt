@@ -1,8 +1,8 @@
 package pl.gieted.flappy_bird.engine
 
-fun <T : Comparable<T>> limit(value: T, lowerBound: T? = null, upperBound: T? = null) = when {
-    upperBound != null && value > upperBound -> upperBound
-    lowerBound != null && value < lowerBound -> lowerBound
+fun <T : Comparable<T>> limit(value: T, min: T? = null, max: T? = null) = when {
+    max != null && value > max -> max
+    min != null && value < min -> min
     else -> value
 }
 

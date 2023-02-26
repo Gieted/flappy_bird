@@ -16,7 +16,7 @@ class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScor
     }
 
     private val resourceLoader = FlappyBirdResourceLoader(renderer)
-    private val progressBar = ProgressBar(renderer, color = Color(248, 183, 51))
+    private val progressBar = ProgressBar()
     private var resources: Resources? = null
     private var highScore: Int? = null
     private var sceneExitTime: Int? = null
@@ -42,7 +42,7 @@ class LoadingScene(renderer: Renderer, private val highScoreRepository: HighScor
 
     override fun setup() {
         super.setup()
-        addObject(progressBar)
+        addObject(RenderObjectWrapper(renderer, progressBar))
         lifecycleScope.launch {
             loadBackgroundImage()
             loadResources()

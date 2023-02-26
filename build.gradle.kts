@@ -3,23 +3,24 @@
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 plugins {
-    kotlin("multiplatform") version "1.5.31"
-    id("edu.sc.seis.launch4j") version "2.5.0"
-    id ("com.android.application") version "4.2.2"
+    kotlin("multiplatform") version "1.8.10"
 }
 
 group = "pl.gieted.flappy_bird"
-version = "1.13-SNAPSHOT"
+version = "1.14-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+    google()
+}
 
 kotlin {
     jvm {
         compilations {
-            val main by getting
-
-            val development by creating
+            create("development")
         }
     }
-    js {
+    js(IR) {
         binaries.executable()
         browser {
             commonWebpackConfig {
@@ -27,22 +28,11 @@ kotlin {
             }
         }
     }
-    android()
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation(fileTree("libs") {
-                    include("*.jar", "android/*.jar")
-                })
-
-                implementation("androidx.appcompat:appcompat:1.3.1")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
             }
         }
         val jvmMain by getting {
@@ -71,46 +61,4 @@ kotlin {
             }
         }
     }
-}
-
-launch4j {
-    mainClassName = "pl.gieted.flappy_bird.MainKt"
-    icon = "${projectDir}/favicon.ico"
-    bundledJrePath = "./jre"
-    bundledJre64Bit = true
-    jarTask = tasks["jvmJar"]
-}
-
-android {
-    compileSdkVersion(31)
-    defaultConfig {
-        applicationId = group.toString()
-        minSdkVersion(24)
-        targetSdkVersion(31)
-        versionName = version.toString()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    sourceSets {
-        val main by getting {
-            manifest.srcFile("src/androidMain/AndroidManifest.xml")
-            assets.srcDirs("src/androidMain/resources", "src/javaMain/resources", "src/commonMain/resources")
-        }
-    }
-}
-
-repositories {
-    mavenCentral()
-    google()
-}
-
-configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
-    versions.webpackCli.version = "4.9.0"
 }

@@ -32,7 +32,7 @@ class GameScene(
                 resources.sounds.point.play()
                 scoreDisplay.score = value
             }
-            field = limit(value, lowerBound = 0)
+            field = limit(value, min = 0)
         }
 
     private val bird = Bird(renderer, getBirdTexture(), this::onDeath, resources.sounds.wing, resources.sounds.die)
@@ -50,7 +50,7 @@ class GameScene(
 
     private var deathLockTime = 0.0
         set(value) {
-            field = limit(value, lowerBound = 0.0)
+            field = limit(value, min = 0.0)
         }
 
     private fun onDeath() {
@@ -119,7 +119,7 @@ class GameScene(
         super.draw()
         with(renderer) {
             val distanceFlownFromFirstPipe: Double =
-                limit(bird.distanceFlown - firstPipeOffset + scoringOffset, lowerBound = 0.0)
+                limit(bird.distanceFlown - firstPipeOffset + scoringOffset, min = 0.0)
             score = ((distanceFlownFromFirstPipe) / pipeOffset).toInt()
                 .let { if (distanceFlownFromFirstPipe > 0.0) it + 1 else it }
 

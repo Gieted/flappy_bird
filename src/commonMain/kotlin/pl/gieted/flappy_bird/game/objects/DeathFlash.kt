@@ -1,39 +1,37 @@
 package pl.gieted.flappy_bird.game.objects
 
-import pl.gieted.flappy_bird.engine.Renderer
-import pl.gieted.flappy_bird.engine.Animation
-import pl.gieted.flappy_bird.engine.Color
-import pl.gieted.flappy_bird.engine.FullscreenRectangle
+import pl.gieted.flappy_bird.engine.*
 
-class DeathFlash(renderer: Renderer) : FullscreenRectangle(renderer, Color.white), Animation {
+class DeathFlash(renderer: Renderer) : Object(renderer, zIndex = 10000000), Animation {
+    private val rectangle = FullscreenRectangle().apply { 
+        opacity = 0.0
+    }
     
     companion object {
         const val speed = 0.005
     }
     
     override fun setup() {
-        super.setup()
-        opacity = 0.0
+        
     }
 
     private var direction = true
 
     override fun draw() {
-        super.draw()
+        rectangle.draw(renderer, renderer.deltaTime)
         with(renderer) {
-            
             if (direction) {
-                opacity += speed * deltaTime
+                rectangle.opacity += speed * deltaTime
             } else {
-                opacity -= speed * deltaTime
+                rectangle.opacity -= speed * deltaTime
             }
 
-            if (opacity > 0.5) {
+            if (rectangle.opacity > 0.5) {
                 direction = false
             }
         }
     }
 
     override val isFinished: Boolean
-        get() = !direction && opacity == 0.0
+        get() = !direction && rectangle.opacity == 0.0
 }

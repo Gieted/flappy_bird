@@ -1,25 +1,17 @@
 package pl.gieted.flappy_bird.engine
 
-class ProgressBar(
-    renderer: Renderer,
-    private val yPosition: Double = -Vector2.halfScreen.y + 5,
-    private val height: Double = 10.0,
-    zIndex: Int = 0,
-    color: Color = rgb(95, 254, 65)
-) : Rectangle(
-        renderer,
-        Vector2(Vector2.halfScreen.x, yPosition),
-        zIndex = zIndex,
-        color = color,
-        size = Vector2(0, height),
-    ) {
-
+class ProgressBar : RenderObject() {
+    val rectangle = Rectangle().apply { 
+        color = Color(248, 183, 51)
+    }
     var progressPercentage: Double = 0.0
+    
+    val height = 10.0
 
-    override fun draw() {
+    override fun draw(renderer: Renderer, deltaTime: Int) {
         val width = renderer.width * (progressPercentage / 100)
-        position = Vector2(-renderer.width / 2 + width / 2, yPosition)
-        size = Vector2(width, height)
-        super.draw()
+        rectangle.position = Vector2(-renderer.width / 2 + width / 2, -Vector2.halfScreen.y + 5)
+        rectangle.size = Vector2(width, height)
+        rectangle.draw(renderer, deltaTime)
     }
 }

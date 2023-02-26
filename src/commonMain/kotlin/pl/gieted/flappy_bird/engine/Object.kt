@@ -1,5 +1,6 @@
 package pl.gieted.flappy_bird.engine
 
+@Deprecated("Use RenderObject instead")
 abstract class Object(
     renderer: Renderer,
     open var position: Vector2 = Vector2.zero,
